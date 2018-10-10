@@ -1,0 +1,6 @@
+<footer>
+	<hr>
+	<p class="container">
+		<fmt:message key="page.footer.text" bundle="${pagebundle}" />
+	</p>
+</footer>

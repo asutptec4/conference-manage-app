@@ -1,0 +1,4 @@
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/img/users.ico">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script defer src="${pageContext.request.contextPath}/js/fontawesome-all.min.js"></script>

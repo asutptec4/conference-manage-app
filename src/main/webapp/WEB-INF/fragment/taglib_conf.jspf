@@ -1,0 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="com.epam.conference.tags" prefix="ctl"%>
+<fmt:setLocale value="${locale}" scope="session" />
+<fmt:setBundle basename="properties.pagecontent" var="pagebundle" />

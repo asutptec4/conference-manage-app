@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	version="2.1">
+	<tlib-version>1.0</tlib-version>
+	<short-name>ctl</short-name>
+	<uri>com.epam.conference.tags</uri>
+	<description>ConferenceApp custom tags</description>
+	<tag>
+		<name>long-date</name>
+		<tag-class>com.epam.conference.tag.LongDateTag</tag-class>
+		<body-content>scriptless</body-content>
+		<description>Convert date from long and display in ordinary view</description>
+		<attribute>
+			<name>format</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Type of output format: date, datetime, time</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>user-info</name>
+		<tag-class>com.epam.conference.tag.UserInfoTag</tag-class>
+		<body-content>scriptless</body-content>
+		<description>Show first name and last name by login.</description>
+		<attribute>
+			<name>login</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Login of user</description>
+		</attribute>
+	</tag>
+</taglib>
+
+<!-- <jsp-config>
+	<taglib>
+		<taglib-uri>customtags</taglib-uri>
+		<taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+	</taglib>
+</jsp-config>
+	or
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %> -->
+
