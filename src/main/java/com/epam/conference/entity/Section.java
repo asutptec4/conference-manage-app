@@ -1,11 +1,28 @@
 package com.epam.conference.entity;
 
+/**
+ * The {@code Section} class described sections of conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class Section extends Entity {
 
     private static final long serialVersionUID = 1311155836822235709L;
 
+    /**
+     * Section name.
+     */
     private String name;
+
+    /**
+     * Field identify conference, which this section belongs.
+     */
     private long conferenceId;
+
+    /**
+     * Section description.
+     */
     private String description;
 
     public String getName() {
@@ -75,5 +92,4 @@ public class Section extends Entity {
 		.append(", description=").append(description).append("]");
 	return builder.toString();
     }
-
 }

@@ -11,6 +11,13 @@ import com.epam.conference.dao.AbstractDao;
 import com.epam.conference.entity.Section;
 import com.epam.conference.exception.ConferenceAppDaoException;
 
+/**
+ * DAO class used for working with {@code Section} objects and modifying data in
+ * corresponding table of database.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SectionDao extends AbstractDao<Section> {
 
     private static final String FIND_ALL = "SELECT id, name, conference_id, description FROM section";
@@ -18,13 +25,13 @@ public class SectionDao extends AbstractDao<Section> {
     private static final String FIND_BY_CONFERID = "SELECT id, name, conference_id, description FROM section WHERE conference_id = ?";
     private static final String INSERT = "INSERT INTO section (id, name, conference_id, description)"
 	    + " VALUES (null, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE section SET name = ?, conference_id = ?, description = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM section WHERE id = ?";
+    private static final String UPDATE = "UPDATE section SET name = ?, conference_id = ?, description = ? WHERE id = ?";
 
     private static final String ID = "id";
     private static final String NAME = "name";
-    private static final String DESC = "description";
     private static final String CONF_ID = "conference_id";
+    private static final String DESC = "description";
 
     @Override
     public boolean add(Section entity) throws ConferenceAppDaoException {
@@ -60,11 +67,7 @@ public class SectionDao extends AbstractDao<Section> {
 	    statement.setLong(1, id);
 	    ResultSet resultSet = statement.executeQuery();
 	    if (resultSet.next()) {
-		section = new Section();
-		section.setId(id);
-		section.setName(resultSet.getString(NAME));
-		section.setConferenceId(resultSet.getLong(CONF_ID));
-		section.setDescription(resultSet.getString(DESC));
+		section = createSection(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
@@ -81,12 +84,7 @@ public class SectionDao extends AbstractDao<Section> {
 	    statement.setLong(1, conferenceId);
 	    ResultSet resultSet = statement.executeQuery();
 	    while (resultSet.next()) {
-		Section section = new Section();
-		section.setId(resultSet.getLong(ID));
-		section.setName(resultSet.getString(NAME));
-		section.setConferenceId(resultSet.getLong(CONF_ID));
-		section.setDescription(resultSet.getString(DESC));
-		list.add(section);
+		list.add(createSection(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
@@ -102,12 +100,7 @@ public class SectionDao extends AbstractDao<Section> {
 		.getPrepareStatement(FIND_ALL)) {
 	    ResultSet resultSet = statement.executeQuery();
 	    while (resultSet.next()) {
-		Section section = new Section();
-		section.setId(resultSet.getLong(ID));
-		section.setName(resultSet.getString(NAME));
-		section.setConferenceId(resultSet.getLong(CONF_ID));
-		section.setDescription(resultSet.getString(DESC));
-		list.add(section);
+		list.add(createSection(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
@@ -129,5 +122,14 @@ public class SectionDao extends AbstractDao<Section> {
 	    throw new ConferenceAppDaoException(
 		    "Can't update section record in db.", e);
 	}
+    }
+
+    private Section createSection(ResultSet resultSet) throws SQLException {
+	Section section = new Section();
+	section.setId(resultSet.getLong(ID));
+	section.setName(resultSet.getString(NAME));
+	section.setConferenceId(resultSet.getLong(CONF_ID));
+	section.setDescription(resultSet.getString(DESC));
+	return section;
     }
 }

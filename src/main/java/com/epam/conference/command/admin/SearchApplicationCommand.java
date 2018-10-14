@@ -7,13 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.entity.Application;
 import com.epam.conference.entity.Status;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ApplicationService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
@@ -27,7 +27,8 @@ public class SearchApplicationCommand implements Command {
 	PageRouter router = new PageRouter();
 	long applicId = Long.parseLong(requestContent
 		.getRequestParameter(RequestConstant.APPLICATION_ID));
-	ApplicationService applicationService = new ApplicationService();
+	ApplicationService applicationService = ApplicationService
+		.getInstance();
 	Optional<Application> optional = Optional.empty();
 	try {
 	    optional = applicationService.findApplicationById(applicId);
@@ -46,11 +47,9 @@ public class SearchApplicationCommand implements Command {
 		    optional.get());
 	    router.setPagePath(UriPathConstant.PATH_APPLICATION_EDIT);
 	} else {
-	    // TODO think of something better
 	    router.setPagePath(UriPathConstant.PATH_USER_APPLIC);
 	    router.setRouterType(PageRouterType.REDIRECT);
 	}
 	return router;
     }
-
 }

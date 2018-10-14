@@ -37,12 +37,26 @@ public class ProxyConnection implements Connection {
 
     private static final Logger LOGGER = LogManager
 	    .getLogger(ProxyConnection.class);
+
+    /**
+     * Real instance of connection with database.
+     */
     private Connection connection;
 
     ProxyConnection(Connection connection) {
 	this.connection = connection;
     }
 
+    /**
+     * Create new PreparedStatement object containing the pre-compiled SQL
+     * statement.
+     * 
+     * @param sql
+     *            SQL query.
+     * @return a new PreparedStatement object.
+     * @throws SQLException
+     *             if a database access error occurs.
+     */
     public PreparedStatement getPrepareStatement(String sql)
 	    throws SQLException {
 	if (connection != null) {
@@ -54,6 +68,12 @@ public class ProxyConnection implements Connection {
 	throw new SQLException("Connection or statement is null");
     }
 
+    /**
+     * Releases Statement object's database.
+     * 
+     * @param statement
+     *            a Statement object.
+     */
     public void closeStatement(Statement statement) {
 	if (statement != null) {
 	    try {

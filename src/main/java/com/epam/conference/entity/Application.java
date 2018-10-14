@@ -1,12 +1,34 @@
 package com.epam.conference.entity;
 
+/**
+ * The {@code Application} class described user's application for participation
+ * in the conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class Application extends Entity {
 
     private static final long serialVersionUID = -6586546264303470881L;
 
+    /**
+     * Field identify section for user's report.
+     */
     private long sectionId;
+
+    /**
+     * Identify user's report for application.
+     */
     private long reportId;
+
+    /**
+     * Date of report presentation.
+     */
     private long reportDate;
+
+    /**
+     * Current status or report for conference.
+     */
     private Status status;
 
     public long getSectionId() {
@@ -84,5 +106,4 @@ public class Application extends Entity {
 		.append(status).append("]");
 	return builder.toString();
     }
-
 }

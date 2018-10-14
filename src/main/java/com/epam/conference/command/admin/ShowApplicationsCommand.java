@@ -4,22 +4,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ApplicationService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
-public class ShowAllApplicCommand implements Command {
+public class ShowApplicationsCommand implements Command {
 
     private static final Logger LOGGER = LogManager
-	    .getLogger(ShowAllApplicCommand.class);
+	    .getLogger(ShowApplicationsCommand.class);
 
     @Override
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
-	ApplicationService service = new ApplicationService();
+	ApplicationService service = ApplicationService.getInstance();
 	try {
 	    requestContent.setRequestAttribute(RequestConstant.APPLICATION_INFO,
 		    service.getApplicationInfoList());

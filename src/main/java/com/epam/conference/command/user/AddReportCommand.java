@@ -4,13 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ReportService;
 import com.epam.conference.service.UserService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
 import com.epam.conference.util.MessageManager;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
@@ -33,14 +33,14 @@ public class AddReportCommand implements Command {
 		    .getRequestParameter(RequestConstant.REPORT_DESC));
 	    String userLogin = (String) requestContent
 		    .getSessionAttribute(SessionConstant.USER);
-	    UserService userService = new UserService();
+	    UserService userService = UserService.getInstance();
 	    long userId = 0;
 	    try {
 		userId = userService.findUserByLogin(userLogin).get().getId();
 	    } catch (ConferenceAppServiceException e) {
 		LOGGER.error("Fail to find userId by login", e);
 	    }
-	    ReportService reportService = new ReportService();
+	    ReportService reportService = ReportService.getInstance();
 	    boolean flag = false;
 	    try {
 		flag = (userId > 0)

@@ -1,6 +1,13 @@
 package com.epam.conference.util.constant;
 
-public abstract class RequestConstant {
+/**
+ * Request parameters and attributes name.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
+public final class RequestConstant {
+
     public static final String APPLICATION = "application";
     public static final String APPLICATIONS = "applicList";
     public static final String APPLICATION_ID = "applicationId";
@@ -14,6 +21,9 @@ public abstract class RequestConstant {
     public static final String CONFERENCE_LOC = "conferLocation";
     public static final String CONFERENCE_NAME = "conferName";
     public static final String CONFERENCE_START = "conferStart";
+    public static final String MESSAGES = "messageList";
+    public static final String MESSAGE_TEXT = "messageText";
+    public static final String RECEIVER = "receiver";
     public static final String REPORT = "report";
     public static final String REPORTS = "reportList";
     public static final String REPORT_DATE = "reportDate";
@@ -28,6 +38,7 @@ public abstract class RequestConstant {
     public static final String SECTION_NAME = "sectionName";
     public static final String STATUSES = "statusList";
     public static final String STATUSE_ID = "statusId";
+    public static final String UNREAD_LIST = "unreadList";
     public static final String USER = "user";
     public static final String USERS = "userList";
     public static final String USER_EMAIL = "email";
@@ -36,4 +47,7 @@ public abstract class RequestConstant {
     public static final String USER_LOGIN = "login";
     public static final String USER_PASSWORD = "password";
     public static final String USER_PHONE = "phone";
+
+    private RequestConstant() {
+    }
 }

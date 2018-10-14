@@ -9,13 +9,44 @@ public class User extends Entity {
 
     private static final long serialVersionUID = -9170079717868693829L;
 
+    /**
+     * User's login in app.
+     */
     private String login;
+    
+    /**
+     * User's first name.
+     */
     private String firstName;
+    
+    /**
+     * User's last name.
+     */
     private String lastName;
+    
+    /**
+     * User role in app, for example admin or user.
+     */
     private UserRole userRole;
+    
+    /**
+     * User's emali.
+     */
     private String email;
+    
+    /**
+     * User's phone number.
+     */
     private String phone;
+    
+    /**
+     * Time of user registration.
+     */
     private long createTime;
+    
+    /**
+     * Status of user's account.
+     */
     private boolean isBlocked;
 
     public String getLogin() {
@@ -155,5 +186,4 @@ public class User extends Entity {
 		.append("]");
 	return builder.toString();
     }
-
 }

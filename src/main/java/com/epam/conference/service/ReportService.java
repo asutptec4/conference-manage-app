@@ -12,6 +12,15 @@ import com.epam.conference.exception.ConferenceAppServiceException;
 
 public class ReportService {
 
+    private static final ReportService INSTANCE = new ReportService();
+
+    private ReportService() {
+    }
+
+    public static ReportService getInstance() {
+	return INSTANCE;
+    }
+
     public boolean addReport(long userId, String name, String description)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
@@ -22,8 +31,7 @@ public class ReportService {
 	try (ReportDao dao = new ReportDao()) {
 	    flag = dao.add(report);
 	} catch (ConferenceAppDaoException e) {
-	    throw new ConferenceAppServiceException(
-		    "Can't add new report", e);
+	    throw new ConferenceAppServiceException("Can't add new report", e);
 	}
 	return flag;
     }

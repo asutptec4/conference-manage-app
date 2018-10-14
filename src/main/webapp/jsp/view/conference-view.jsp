@@ -42,12 +42,20 @@
 								<td><ctl:long-date format="date">${conference.endDate}</ctl:long-date></td>
 								<c:if test="${role == 'ADMIN'}">
 									<td>
-										<button type="submit" class="btn btn-primary  btn-md"
-											onclick="document.getElementById('conferenceId').value='${conference.id}';
-											document.getElementById('command').value='searchConferenceByid';
-						              		document.getElementById('conferForm').submit();">
-											<fmt:message key="page.common.edit" bundle="${pagebundle}" />
-										</button>
+										<div class="btn-group" role="group">
+											<button type="submit" class="btn btn-primary  btn-md"
+												onclick="document.getElementById('conferenceId').value='${conference.id}';
+												document.getElementById('command').value='search-conference-byid';
+							              		document.getElementById('conferForm').submit();">
+												<fmt:message key="page.common.edit" bundle="${pagebundle}" />
+											</button> 
+											<button type="submit" class="btn btn-primary  btn-md"
+												onclick="document.getElementById('conferenceId').value='${conference.id}';
+												document.getElementById('command').value='delete-conference';
+							              		document.getElementById('conferForm').submit();">
+												<fmt:message key="page.common.delete" bundle="${pagebundle}" />
+											</button>
+										</div>
 									</td>
 								</c:if>
 							</tr>
@@ -68,15 +76,23 @@
 												<td>${section.description}</td>
 												<c:if test="${role == 'ADMIN'}">
 													<td>
-														<a class="btn btn-primary  btn-md"
-														href="${pageContext.request.contextPath}/controller?command=searchSection&sectionId=${section.id}"><fmt:message
-														key="page.common.edit" bundle="${pagebundle}" /></a>
+														<div class="btn-group" role="group">
+															<a class="btn btn-primary  btn-md"
+															href="${pageContext.request.contextPath}/controller?command=search-section&sectionId=${section.id}"><fmt:message
+															key="page.common.edit" bundle="${pagebundle}" /></a>
+															<button type="submit" class="btn btn-primary  btn-md"
+															onclick="document.getElementById('sectionId').value='${section.id}';
+															document.getElementById('command').value='delete-section';
+										              		document.getElementById('conferForm').submit();">
+															<fmt:message key="page.common.delete" bundle="${pagebundle}" />
+														</button>
+														</div>
 													</td>
 												</c:if>
 												<c:if test="${role == 'USER'}">
 													<td><button type="submit" class="btn btn-primary  btn-md"
 															onclick="document.getElementById('sectionId').value='${section.id}';
-															document.getElementById('command').value='searchUserReport';
+															document.getElementById('command').value='search-user-report';
 										              		document.getElementById('conferForm').submit();">
 															<fmt:message key="page.viev.confer.addapplic" bundle="${pagebundle}" /></button>
 													</td>
@@ -88,7 +104,7 @@
 											<tr>
 												<td colspan="3">
 													<a class="btn btn-primary  btn-md"
-													href="${pageContext.request.contextPath}/controller?command=searchSection&conferenceId=${conference.id}"><fmt:message
+													href="${pageContext.request.contextPath}/controller?command=search-section&conferenceId=${conference.id}"><fmt:message
 													key="page.view.section.new" bundle="${pagebundle}" /></a>
 												</td>
 											</tr>

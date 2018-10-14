@@ -10,7 +10,7 @@
 	<%@ include file="/WEB-INF/fragment/header.jspf"%>
 	<div class="container">
 		<form action="${pageContext.request.contextPath}/controller" method="post" role="form">
-			<input type="hidden" name="command" value="editApplic" /> <input type="hidden"
+			<input type="hidden" name="command" value="edit-applic" /> <input type="hidden"
 				name="applicationId" value="${application.id}" /> <label for="reportDate"
 				class="control-label col-xs-4"> <fmt:message key="page.application.date"
 					bundle="${pagebundle}" /></label> <input type="datetime-local" name=reportDate

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.epam.conference.dao.impl.ApplicationDao;
 import com.epam.conference.dao.impl.ConferenceDao;
 import com.epam.conference.dao.impl.SectionDao;
 import com.epam.conference.entity.Conference;
@@ -14,6 +15,15 @@ import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.util.DateTimeConverter;
 
 public class ConferenceService {
+
+    private static final ConferenceService INSTANCE = new ConferenceService();
+
+    private ConferenceService() {
+    }
+
+    public static ConferenceService getInstance() {
+	return INSTANCE;
+    }
 
     public boolean addConference(String name, String startDate, String endDate,
 	    String location, String descripiton)
@@ -139,8 +149,8 @@ public class ConferenceService {
 	try (ConferenceDao dao = new ConferenceDao()) {
 	    flag = dao.update(conference);
 	} catch (Exception e) {
-	    throw new ConferenceAppServiceException(
-		    "Fail to update conference", e);
+	    throw new ConferenceAppServiceException("Fail to update conference",
+		    e);
 	}
 	return flag;
     }
@@ -148,14 +158,42 @@ public class ConferenceService {
     public boolean updateSection(long id, String name, String description)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
-	try(SectionDao dao = new SectionDao()){
+	try (SectionDao dao = new SectionDao()) {
 	    Section section = dao.findById(id).get();
 	    section.setName(name);
 	    section.setDescription(description);
 	    flag = dao.update(section);
 	} catch (ConferenceAppDaoException e) {
-	    throw new ConferenceAppServiceException(
-		    "Fail to update section", e);
+	    throw new ConferenceAppServiceException("Fail to update section",
+		    e);
+	}
+	return flag;
+    }
+
+    public boolean deleteConference(long id)
+	    throws ConferenceAppServiceException {
+	boolean flag = false;
+	try (ConferenceDao dao = new ConferenceDao()) {
+	    if (findSectionsOfConference(id).size() == 0) {
+		flag = dao.delete(id);
+	    }
+	} catch (ConferenceAppDaoException e) {
+	    throw new ConferenceAppServiceException("Fail to delete conference",
+		    e);
+	}
+	return flag;
+    }
+
+    public boolean deleteSection(long id) throws ConferenceAppServiceException {
+	boolean flag = false;
+	try (SectionDao sectDao = new SectionDao();
+		ApplicationDao appDao = new ApplicationDao()) {
+	    if (appDao.findBySectionId(id).size() == 0) {
+		flag = sectDao.delete(id);
+	    }
+	} catch (ConferenceAppDaoException e) {
+	    throw new ConferenceAppServiceException("Fail to delete section",
+		    e);
 	}
 	return flag;
     }

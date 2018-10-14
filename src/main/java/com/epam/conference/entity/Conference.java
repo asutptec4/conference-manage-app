@@ -1,13 +1,38 @@
 package com.epam.conference.entity;
 
+/**
+ * The {@code Conference} class described conference entity of web app.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class Conference extends Entity {
 
     private static final long serialVersionUID = 1600826375502537464L;
 
+    /**
+     * Conference name.
+     */
     private String name;
+
+    /**
+     * Start date of conference.
+     */
     private long startDate;
+
+    /**
+     * End date of conference.
+     */
     private long endDate;
+
+    /**
+     * Description of conference.
+     */
     private String description;
+
+    /**
+     * Conference location.
+     */
     private String location;
 
     public String getName() {
@@ -105,5 +130,4 @@ public class Conference extends Entity {
 		.append("]");
 	return builder.toString();
     }
-
 }

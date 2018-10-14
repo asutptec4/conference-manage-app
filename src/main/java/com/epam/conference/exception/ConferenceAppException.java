@@ -1,7 +1,13 @@
 package com.epam.conference.exception;
 
+/**
+ * Base class for application exception.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ConferenceAppException extends Exception {
-    
+
     private static final long serialVersionUID = -2901555591010707833L;
 
     public ConferenceAppException() {

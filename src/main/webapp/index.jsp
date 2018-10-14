@@ -5,6 +5,6 @@
 <title>Index</title>
 </head>
 <body>
-	<jsp:forward page="/controller?command=showAllConfer"></jsp:forward>
+	<jsp:forward page="/controller?command=show-all-confer"></jsp:forward>
 </body>
 </html>

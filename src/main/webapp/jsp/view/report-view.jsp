@@ -12,7 +12,7 @@
 		<form action="${pageContext.request.contextPath}/controller" id="reportForm"
 			method="post" role="form">
 			<input type="hidden" id="reportId" name="reportId"/>
-			<input type="hidden" id="command" name="command" value="searchReportById"/>
+			<input type="hidden" id="command" name="command" value="search-report-byid"/>
 			<c:if test="${not empty message}">
 				<div class="alert alert-success">${message}</div>
 			</c:if>

@@ -6,19 +6,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.entity.Section;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ConferenceService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
 public class SearchSectionCommand implements Command {
 
-    private static final String COMMAND_EDIT_SECTION = "editSection";
-    private static final String COMMAND_ADD_SECTION = "addSection";
+    private static final String COMMAND_EDIT_SECTION = "edit-section";
+    private static final String COMMAND_ADD_SECTION = "add-section";
     private static final Logger LOGGER = LogManager
 	    .getLogger(SearchSectionCommand.class);
     private static final int FIRST_INDEX = 0;
@@ -33,7 +33,7 @@ public class SearchSectionCommand implements Command {
 	if (sectionId != null) {
 	    long id = Long.parseLong(sectionId);
 	    Optional<Section> optional = Optional.empty();
-	    ConferenceService service = new ConferenceService();
+	    ConferenceService service = ConferenceService.getInstance();
 	    try {
 		optional = service.findSectionById(id);
 	    } catch (ConferenceAppServiceException e) {

@@ -4,11 +4,15 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PasswordEncryptor {
+public final class PasswordEncryptor {
 
     private static final String ALG_NAME = "MD5";
     private static final String CHARSET = "UTF-8";
 
+    private PasswordEncryptor() {
+    }
+    
+    //TODO rewrite method
     public static String encrypt(String input) {
 	if (input == null) {
 	    return "InvalidInput";
@@ -27,7 +31,6 @@ public class PasswordEncryptor {
 		output.append(str);
 	    }
 	} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-	    Thread.currentThread().interrupt();
 	}
 	return output.toString();
     }

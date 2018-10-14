@@ -1,4 +1,4 @@
-package com.epam.conference.servlet;
+package com.epam.conference.controller;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -13,28 +13,69 @@ import javax.servlet.http.HttpServletResponse;
 import com.epam.conference.command.Command;
 import com.epam.conference.command.CommandFactory;
 import com.epam.conference.command.base.EmptyCommand;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
-import com.epam.conference.util.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Main controller class of web app. Process all request from clients.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
 
     private static final String PARAM_COMMAND = "command";
     private static final long serialVersionUID = 4836424767511542704L;
 
+    /**
+     * Method handle GET request.
+     * 
+     * @param req
+     *            an object that contains the request
+     * @param resp
+     *            an object that contains the response
+     * @throws ServletException
+     *             if servlet could not handle request
+     * @throws IOException
+     *             if an input/output error is occurred
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException {
 	processRequest(req, resp);
     }
 
+    /**
+     * Method handle POST request.
+     * 
+     * @param req
+     *            an object that contains the request
+     * @param resp
+     *            an object that contains the response
+     * @throws ServletException
+     *             if servlet could not handle request
+     * @throws IOException
+     *             if an input/output error is occurred
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException {
 	processRequest(req, resp);
     }
 
+    /**
+     * Method handle clients request based on parameter "command" of request.
+     * 
+     * @param req
+     *            an object that contains the request
+     * @param resp
+     *            an object that contains the response
+     * @throws ServletException
+     *             if servlet could not handle request
+     * @throws IOException
+     *             if an input/output error is occurred
+     */
     private void processRequest(HttpServletRequest req,
 	    HttpServletResponse resp) throws ServletException, IOException {
 	Optional<Command> command = CommandFactory
@@ -56,12 +97,8 @@ public class Controller extends HttpServlet {
 		resp.sendRedirect(req.getContextPath() + router.getPagePath());
 	    }
 	} else {
-	    // TODO decide what do with null path page
-	    // req.getSession().setAttribute("nullPage",
-	    // MessageManager.getProperty("message.nullpage"));
 	    resp.sendRedirect(
 		    req.getContextPath() + UriPathConstant.PATH_INDEX);
 	}
     }
-
 }

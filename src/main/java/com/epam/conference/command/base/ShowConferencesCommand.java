@@ -1,13 +1,16 @@
 package com.epam.conference.command.base;
 
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ConferenceService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.util.RequestContent;
+import com.epam.conference.util.DateTimeConverter;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
@@ -19,15 +22,16 @@ public class ShowConferencesCommand implements Command {
     @Override
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
-	ConferenceService service = new ConferenceService();
+	ConferenceService service = ConferenceService.getInstance();
 	try {
 	    requestContent.setRequestAttribute(RequestConstant.CONFERENCES,
-		    service.getConferenceList());
+		    service.getConferenceList().stream().filter(
+			    conf -> conf.getEndDate() > DateTimeConverter.now())
+			    .collect(Collectors.toList()));
 	} catch (ConferenceAppServiceException e) {
 	    LOGGER.error("Fail to return conference list", e);
 	}
 	router.setPagePath(UriPathConstant.PATH_MAIN);
 	return router;
     }
-
 }

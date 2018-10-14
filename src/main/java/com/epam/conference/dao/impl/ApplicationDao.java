@@ -12,11 +12,18 @@ import com.epam.conference.entity.Application;
 import com.epam.conference.entity.Status;
 import com.epam.conference.exception.ConferenceAppDaoException;
 
+/**
+ * DAO class used for working with {@code Application} objects and modifying
+ * data in corresponding table of database.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ApplicationDao extends AbstractDao<Application> {
 
     private static final String FIND_ALL = "SELECT a.id, a.section_id, a.report_id, a.report_date, a.status_id, s.name"
 	    + " FROM application AS a JOIN status AS s ON a.status_id = s.id";
-    private static final String FIND_BY_ID = "SELECT a.section_id, a.report_id, a.report_date, a.status_id, s.name"
+    private static final String FIND_BY_ID = "SELECT a.id, a.section_id, a.report_id, a.report_date, a.status_id, s.name"
 	    + " FROM application AS a JOIN status AS s ON a.status_id = s.id WHERE a.id = ?";
     private static final String FIND_BY_USERID = "SELECT a.id, a.section_id, a.report_id, a.report_date, a.status_id, s.name"
 	    + " FROM application AS a JOIN status AS s ON a.status_id = s.id"
@@ -27,8 +34,8 @@ public class ApplicationDao extends AbstractDao<Application> {
 	    + " FROM application AS a JOIN status AS s ON a.status_id = s.id WHERE a.section_id = ?";
     private static final String INSERT = "INSERT INTO application (id, section_id, report_id, report_date, status_id)"
 	    + " VALUES (null, ?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE application SET section_id = ?, report_id = ?, report_date = ?, status_id = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM application WHERE id = ?";
+    private static final String UPDATE = "UPDATE application SET section_id = ?, report_id = ?, report_date = ?, status_id = ? WHERE id = ?";
 
     private static final String ID = "id";
     private static final String SECTION_ID = "section_id";
@@ -73,15 +80,7 @@ public class ApplicationDao extends AbstractDao<Application> {
 	    statement.setLong(1, id);
 	    ResultSet resultSet = statement.executeQuery();
 	    if (resultSet.next()) {
-		application = new Application();
-		application.setId(id);
-		application.setSectionId(resultSet.getLong(SECTION_ID));
-		application.setReportId(resultSet.getLong(REPORT_ID));
-		application.setReportDate(resultSet.getLong(DATE));
-		Status status = new Status();
-		status.setId(resultSet.getLong(STATUS_ID));
-		status.setName(resultSet.getString(STATUS_NAME));
-		application.setStatus(status);
+		application = createApplication(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find application by id.",
@@ -90,54 +89,38 @@ public class ApplicationDao extends AbstractDao<Application> {
 	return Optional.ofNullable(application);
     }
 
-    public Optional<Application> findByReportId(long reportId)
+    public List<Application> findByReportId(long reportId)
 	    throws ConferenceAppDaoException {
-	Application application = null;
+	List<Application> list = new ArrayList<>();
 	try (PreparedStatement statement = connection
 		.getPrepareStatement(FIND_BY_REPORTID)) {
 	    statement.setLong(1, reportId);
 	    ResultSet resultSet = statement.executeQuery();
-	    if (resultSet.next()) {
-		application = new Application();
-		application.setId(resultSet.getLong(ID));
-		application.setSectionId(resultSet.getLong(SECTION_ID));
-		application.setReportId(resultSet.getLong(REPORT_ID));
-		application.setReportDate(resultSet.getLong(DATE));
-		Status status = new Status();
-		status.setId(resultSet.getLong(STATUS_ID));
-		status.setName(resultSet.getString(STATUS_NAME));
-		application.setStatus(status);
+	    while (resultSet.next()) {
+		list.add(createApplication(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
 		    "Can't find application by report id.", e);
 	}
-	return Optional.ofNullable(application);
+	return list;
     }
 
-    public Optional<Application> findBySectionId(long sectionId)
+    public List<Application> findBySectionId(long sectionId)
 	    throws ConferenceAppDaoException {
-	Application application = null;
+	List<Application> list = new ArrayList<>();
 	try (PreparedStatement statement = connection
 		.getPrepareStatement(FIND_BY_SECTIONID)) {
 	    statement.setLong(1, sectionId);
 	    ResultSet resultSet = statement.executeQuery();
-	    if (resultSet.next()) {
-		application = new Application();
-		application.setId(resultSet.getLong(ID));
-		application.setSectionId(resultSet.getLong(SECTION_ID));
-		application.setReportId(resultSet.getLong(REPORT_ID));
-		application.setReportDate(resultSet.getLong(DATE));
-		Status status = new Status();
-		status.setId(resultSet.getLong(STATUS_ID));
-		status.setName(resultSet.getString(STATUS_NAME));
-		application.setStatus(status);
+	    while (resultSet.next()) {
+		list.add(createApplication(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
 		    "Can't find application by section id.", e);
 	}
-	return Optional.ofNullable(application);
+	return list;
     }
 
     public List<Application> findByUserId(long userId)
@@ -148,16 +131,7 @@ public class ApplicationDao extends AbstractDao<Application> {
 	    statement.setLong(1, userId);
 	    ResultSet resultSet = statement.executeQuery();
 	    while (resultSet.next()) {
-		Application application = new Application();
-		application.setId(resultSet.getLong(ID));
-		application.setSectionId(resultSet.getLong(SECTION_ID));
-		application.setReportId(resultSet.getLong(REPORT_ID));
-		application.setReportDate(resultSet.getLong(DATE));
-		Status status = new Status();
-		status.setId(resultSet.getLong(STATUS_ID));
-		status.setName(resultSet.getString(STATUS_NAME));
-		application.setStatus(status);
-		list.add(application);
+		list.add(createApplication(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
@@ -173,16 +147,7 @@ public class ApplicationDao extends AbstractDao<Application> {
 		.getPrepareStatement(FIND_ALL)) {
 	    ResultSet resultSet = statement.executeQuery();
 	    while (resultSet.next()) {
-		Application application = new Application();
-		application.setId(resultSet.getLong(ID));
-		application.setSectionId(resultSet.getLong(SECTION_ID));
-		application.setReportId(resultSet.getLong(REPORT_ID));
-		application.setReportDate(resultSet.getLong(DATE));
-		Status status = new Status();
-		status.setId(resultSet.getLong(STATUS_ID));
-		status.setName(resultSet.getString(STATUS_NAME));
-		application.setStatus(status);
-		list.add(application);
+		list.add(createApplication(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException(
@@ -205,5 +170,19 @@ public class ApplicationDao extends AbstractDao<Application> {
 	    throw new ConferenceAppDaoException(
 		    "Can't update application record in db.", e);
 	}
+    }
+
+    private Application createApplication(ResultSet resultSet)
+	    throws SQLException {
+	Application application = new Application();
+	application.setId(resultSet.getLong(ID));
+	application.setSectionId(resultSet.getLong(SECTION_ID));
+	application.setReportId(resultSet.getLong(REPORT_ID));
+	application.setReportDate(resultSet.getLong(DATE));
+	Status status = new Status();
+	status.setId(resultSet.getLong(STATUS_ID));
+	status.setName(resultSet.getString(STATUS_NAME));
+	application.setStatus(status);
+	return application;
     }
 }

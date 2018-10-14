@@ -29,7 +29,7 @@ public class UserInfoTag extends SimpleTagSupport {
 	if (login != null) {
 	    User user = null;
 	    try {
-		user = new UserService().findUserByLogin(login).get();
+		user = UserService.getInstance().findUserByLogin(login).get();
 	    } catch (ConferenceAppServiceException e) {
 		LOGGER.error("Can't find user with login= " + login, e);
 	    }

@@ -4,11 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ReportService;
 import com.epam.conference.service.UserService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
@@ -22,8 +22,8 @@ public class SearchUserReportCommand implements Command {
     @Override
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
-	UserService userService = new UserService();
-	ReportService reportsService = new ReportService();
+	UserService userService = UserService.getInstance();
+	ReportService reportsService = ReportService.getInstance();
 	String login = (String) requestContent
 		.getSessionAttribute(SessionConstant.USER);
 	if (login != null) {

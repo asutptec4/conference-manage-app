@@ -11,7 +11,7 @@
 	<div class="container">
 		<form action="${pageContext.request.contextPath}/controller" method="post" role="form">
 			<input type="hidden" name="sectionId" value="${sectionId}" /> <input type="hidden"
-				id="command" name="command" value="addApplic" />
+				id="command" name="command" value="add-applic" />
 			<label for="reportDate" class="control-label col-xs-4"> <fmt:message
 					key="page.application.date" bundle="${pagebundle}" /></label> <input
 				type="datetime-local" name=reportDate class="form-control" />

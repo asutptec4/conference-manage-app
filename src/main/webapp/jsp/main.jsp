@@ -43,7 +43,7 @@
 							<p>Date: <ctl:long-date format="date">${conference.startDate}</ctl:long-date> - <ctl:long-date format="date">${conference.endDate}</ctl:long-date></p>
 							<c:if test="${not empty user and role == 'USER'}">
 								<p>
-									<a class="btn btn-secondary" href="${pageContext.request.contextPath}/controller?command=searchConferById&conferenceId=${conference.id}" role="button"><fmt:message
+									<a class="btn btn-secondary" href="${pageContext.request.contextPath}/controller?command=search-confer-byid&conferenceId=${conference.id}" role="button"><fmt:message
 											key="page.main.button" bundle="${pagebundle}" /></a>
 								</p>
 							</c:if>

@@ -11,10 +11,10 @@
 	<div class="container">
 		<form action="${pageContext.request.contextPath}/controller" method="post" role="form">
 			<c:if test="${empty command}">
-				<c:set var="command" value="addConference" />
+				<c:set var="command" value="add-conference" />
 			</c:if>
 			<input type="hidden" name="command" value="${command}" />
-			<c:if test="${command == 'editConference'}">
+			<c:if test="${command == 'edit-conference'}">
 				<input type="hidden" name="conferenceId" value="${conference.id}" />
 			</c:if>
 			<h3>

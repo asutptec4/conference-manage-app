@@ -7,24 +7,20 @@ import javax.servlet.annotation.WebListener;
 import com.epam.conference.db.ConnectionPool;
 
 /**
- * Application Lifecycle Listener implementation class AppContextListener
+ * {@code AppContextListener} used for initializing {@code ConnectionPool}
+ * object when the application starts.
+ * 
+ * @author Alexander Shishonok
  *
  */
 @WebListener
 public class AppContextListener implements ServletContextListener {
 
-    /**
-     * @see ServletContextListener#contextDestroyed(ServletContextEvent)
-     */
     public void contextDestroyed(ServletContextEvent sce) {
 	ConnectionPool.getInstance().clearConnectionPool();
     }
 
-    /**
-     * @see ServletContextListener#contextInitialized(ServletContextEvent)
-     */
     public void contextInitialized(ServletContextEvent sce) {
 	ConnectionPool.getInstance();
     }
-
 }

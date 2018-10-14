@@ -11,6 +11,9 @@ public abstract class Entity implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6447342348009533087L;
 
+    /**
+     * Unique id for application entities. Identify record in database.
+     */
     private long id;
 
     public long getId() {
@@ -47,5 +50,4 @@ public abstract class Entity implements Serializable, Cloneable {
     public String toString() {
 	return getClass().getSimpleName() + " [id=" + id + "]";
     }
-
 }

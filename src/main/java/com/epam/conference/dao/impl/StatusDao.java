@@ -11,15 +11,21 @@ import com.epam.conference.dao.AbstractDao;
 import com.epam.conference.entity.Status;
 import com.epam.conference.exception.ConferenceAppDaoException;
 
+/**
+ * DAO class used for working with {@code Status} objects and modifying data in
+ * corresponding table of database.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class StatusDao extends AbstractDao<Status> {
 
     private static final String FIND_ALL = "SELECT id, name FROM status";
     private static final String FIND_BY_ID = "SELECT id, name FROM status WHERE id = ?";
     private static final String FIND_BY_NAME = "SELECT id, name FROM status WHERE name LIKE ?";
     private static final String INSERT = "INSERT INTO status VALUES (null, ?)";
-    private static final String UPDATE = "UPDATE status SET name = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM status WHERE id = ?";
-
+    private static final String UPDATE = "UPDATE status SET name = ? WHERE id = ?";
     private static final String ID = "id";
     private static final String NAME = "name";
 
@@ -55,9 +61,7 @@ public class StatusDao extends AbstractDao<Status> {
 	    statement.setLong(1, id);
 	    ResultSet resultSet = statement.executeQuery();
 	    if (resultSet.next()) {
-		status = new Status();
-		status.setId(id);
-		status.setName(resultSet.getString(NAME));
+		status = createStatus(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find status by id.", e);
@@ -73,9 +77,7 @@ public class StatusDao extends AbstractDao<Status> {
 	    statement.setString(1, str);
 	    ResultSet resultSet = statement.executeQuery();
 	    if (resultSet.next()) {
-		status = new Status();
-		status.setId(resultSet.getLong(ID));
-		status.setName(resultSet.getString(NAME));
+		status = createStatus(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find status by id.", e);
@@ -90,10 +92,7 @@ public class StatusDao extends AbstractDao<Status> {
 		.getPrepareStatement(FIND_ALL)) {
 	    ResultSet resultSet = statement.executeQuery();
 	    while (resultSet.next()) {
-		Status status = new Status();
-		status.setId(resultSet.getLong(ID));
-		status.setName(resultSet.getString(NAME));
-		list.add(status);
+		list.add(createStatus(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find any status in db.",
@@ -112,5 +111,13 @@ public class StatusDao extends AbstractDao<Status> {
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't update status.", e);
 	}
+    }
+
+    private Status createStatus(ResultSet resultSet) throws SQLException {
+	Status status;
+	status = new Status();
+	status.setId(resultSet.getLong(ID));
+	status.setName(resultSet.getString(NAME));
+	return status;
     }
 }

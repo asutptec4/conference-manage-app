@@ -4,12 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ApplicationService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
 import com.epam.conference.util.MessageManager;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
@@ -32,7 +32,7 @@ public class EditApplicationCommand implements Command {
 		    .getRequestParameter(RequestConstant.APPLICATION_ID));
 	    long statusId = Long.parseLong(requestContent
 		    .getRequestParameter(RequestConstant.STATUSE_ID));
-	    ApplicationService service = new ApplicationService();
+	    ApplicationService service = ApplicationService.getInstance();
 	    boolean flag = false;
 	    try {
 		flag = service.changeApplicStatus(applicId, statusId);

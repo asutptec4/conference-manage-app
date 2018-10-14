@@ -1,9 +1,12 @@
-package com.epam.conference.entity.dto;
+package com.epam.conference.entity;
 
-import com.epam.conference.entity.Application;
-import com.epam.conference.entity.Entity;
-import com.epam.conference.entity.Status;
-
+/**
+ * Helper class for working with applications for participation in the
+ * conference. Contain all information describe application.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ApplicationInfo extends Entity {
 
     private static final long serialVersionUID = -8192565109139439244L;
@@ -15,6 +18,7 @@ public class ApplicationInfo extends Entity {
     private long reportId;
     private String reportName;
     private long userId;
+    private String login;
     private String userName;
     private long reportDate;
     private Status status;
@@ -86,6 +90,14 @@ public class ApplicationInfo extends Entity {
 	this.userId = userId;
     }
 
+    public String getLogin() {
+	return login;
+    }
+
+    public void setLogin(String login) {
+	this.login = login;
+    }
+
     public String getUserName() {
 	return userName;
     }
@@ -113,17 +125,15 @@ public class ApplicationInfo extends Entity {
     @Override
     public String toString() {
 	StringBuilder builder = new StringBuilder();
-	builder.append(getClass().getSimpleName()).append(" [id=")
-		.append(getId()).append(", conferenceId=").append(conferenceId)
-		.append(", conferenceName=").append(conferenceName)
-		.append(", sectionId=").append(sectionId)
+	builder.append(getClass().getSimpleName()).append(" [conferenceId=")
+		.append(conferenceId).append(", conferenceName=")
+		.append(conferenceName).append(", sectionId=").append(sectionId)
 		.append(", sectionName=").append(sectionName)
 		.append(", reportId=").append(reportId).append(", reportName=")
 		.append(reportName).append(", userId=").append(userId)
-		.append(", userName=").append(userName)
-		.append(", reportDate=").append(reportDate).append(", status=")
-		.append(status).append("]");
+		.append(", login=").append(login).append(", userName=")
+		.append(userName).append(", reportDate=").append(reportDate)
+		.append(", status=").append(status).append("]");
 	return builder.toString();
     }
-
 }

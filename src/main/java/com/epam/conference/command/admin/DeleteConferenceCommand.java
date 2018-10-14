@@ -6,61 +6,44 @@ import org.apache.logging.log4j.Logger;
 import com.epam.conference.command.Command;
 import com.epam.conference.controller.PageRouter;
 import com.epam.conference.controller.RequestContent;
+import com.epam.conference.service.ConferenceService;
 import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.exception.ConferenceAppServiceException;
-import com.epam.conference.service.ConferenceService;
 import com.epam.conference.util.MessageManager;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
-import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
-public class EditConferenceCommand implements Command {
+public class DeleteConferenceCommand implements Command {
 
     private static final Logger LOGGER = LogManager
-	    .getLogger(EditConferenceCommand.class);
+	    .getLogger(DeleteConferenceCommand.class);
 
     @Override
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
 	if (!ReinputValidator.validate(requestContent,
-		RequestConstant.CONFERENCE_NAME,
-		RequestConstant.CONFERENCE_DESC, RequestConstant.CONFERENCE_LOC,
-		RequestConstant.CONFERENCE_START,
-		RequestConstant.CONFERENCE_END)) {
+		RequestConstant.CONFERENCE_ID)) {
 	    long id = Long.parseLong(requestContent
 		    .getRequestParameter(RequestConstant.CONFERENCE_ID));
-	    String name = InputValidator.removeScript(requestContent
-		    .getRequestParameter(RequestConstant.CONFERENCE_NAME));
-	    String description = InputValidator.removeScript(requestContent
-		    .getRequestParameter(RequestConstant.CONFERENCE_DESC));
-	    String location = InputValidator.removeScript(requestContent
-		    .getRequestParameter(RequestConstant.CONFERENCE_LOC));
-	    String startDate = InputValidator.removeScript(requestContent
-		    .getRequestParameter(RequestConstant.CONFERENCE_START));
-	    String endDate = InputValidator.removeScript(requestContent
-		    .getRequestParameter(RequestConstant.CONFERENCE_END));
-	    ConferenceService service = ConferenceService.getInstance();
 	    boolean flag = false;
+	    ConferenceService service = ConferenceService.getInstance();
 	    try {
-		flag = InputValidator.validateConference(name, location,
-			startDate, endDate, description)
-			&& service.updateConference(id, name, startDate,
-				endDate, location, description);
+		flag = service.deleteConference(id);
 	    } catch (ConferenceAppServiceException e) {
-		LOGGER.error("Fail to edit conference", e);
+		LOGGER.error("Fail to remove conference id=" + id, e);
 	    }
 	    if (flag) {
 		requestContent.setRequestAttribute(MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
-				.getProperty("message.success.editconfer"));
+				.getProperty("message.success.delete"));
 	    } else {
 		requestContent.setRequestAttribute(ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
-				.getProperty("message.error.editconfer"));
+				.getProperty("message.error.delete"));
 	    }
 	} else {
 	    router.setRouterType(PageRouterType.REDIRECT);
@@ -68,5 +51,4 @@ public class EditConferenceCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_CONFER_SEARCH);
 	return router;
     }
-
 }

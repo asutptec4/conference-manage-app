@@ -1,9 +1,19 @@
 package com.epam.conference.entity;
 
+/**
+ * The {@code Status} class described various statuses of reports in
+ * application.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class Status extends Entity {
 
     private static final long serialVersionUID = 4663847284775744030L;
 
+    /**
+     * Status name.
+     */
     private String name;
 
     public String getName() {
@@ -43,5 +53,4 @@ public class Status extends Entity {
     public String toString() {
 	return getClass().getSimpleName() + " [name=" + name + "]";
     }
-
 }

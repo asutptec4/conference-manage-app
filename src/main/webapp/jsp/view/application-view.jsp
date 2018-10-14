@@ -19,6 +19,7 @@
 			method="post" role="form">
 			<input type="hidden" id="applicationId" name="applicationId" /> <input type="hidden"
 				id="sectionId" name="sectionId" /> <input type="hidden" id="command" name="command" />
+				<input type="hidden" id="receiver" name="receiver"/> 
 			<c:choose>
 				<c:when test="${not empty applicInfoList}">
 					<table class="table table-striped">
@@ -51,7 +52,7 @@
 									<td>
 										<button type="submit" class="btn btn-primary  btn-md"
 											onclick="document.getElementById('applicationId').value='${applic.id}';
-											document.getElementById('command').value='removeApplic';
+											document.getElementById('command').value='remove-applic';
 											document.getElementById('applicForm').submit();">
 											<fmt:message key="page.view.applic.remove" bundle="${pagebundle}" />
 										</button>
@@ -59,12 +60,20 @@
 								</c:if>
 								<c:if test="${role == 'ADMIN'}">
 									<td>
-										<button type="submit" class="btn btn-primary  btn-md"
-											onclick="document.getElementById('applicationId').value='${applic.id}';
-											document.getElementById('command').value='searchApplication';
-											document.getElementById('applicForm').submit();">
-											<fmt:message key="page.view.applic.change" bundle="${pagebundle}" />
-										</button>
+										<div class="btn-group" role="group">
+											<button type="submit" class="btn btn-primary  btn-md"
+												onclick="document.getElementById('applicationId').value='${applic.id}';
+												document.getElementById('command').value='search-application';
+												document.getElementById('applicForm').submit();">
+												<fmt:message key="page.view.applic.change" bundle="${pagebundle}" />
+											</button>
+											<button type="submit" class="btn btn-primary  btn-md"
+												onclick="document.getElementById('receiver').value='${applic.login}';
+												document.getElementById('command').value='show-messages';
+								              	document.getElementById('applicForm').submit();">
+												<fmt:message key="page.user.button.message" bundle="${pagebundle}" />
+											</button>
+										</div>
 									</td>
 								</c:if>
 							</tr>
@@ -81,7 +90,7 @@
 		</form>
 		<c:if test="${role == 'USER' }">
 			<a class="btn btn-primary  btn-md"
-				href="${pageContext.request.contextPath}/controller?command=searchConfer"> <fmt:message
+				href="${pageContext.request.contextPath}/controller?command=search-confer"> <fmt:message
 					key="page.view.applic.new" bundle="${pagebundle}" /></a>
 		</c:if>
 	</div>

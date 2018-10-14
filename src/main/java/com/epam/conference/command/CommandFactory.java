@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 
 public class CommandFactory {
 
+    private static final String ENUM_WORD_DELIMITER = "_";
+    private static final String COMMAND_WORD_DELIMITER = "-";
     private static final Logger LOGGER = LogManager
 	    .getLogger(CommandFactory.class);
 
@@ -16,7 +18,9 @@ public class CommandFactory {
 	    return current;
 	}
 	try {
-	    CommandType type = CommandType.valueOf(actionName.toUpperCase());
+	    CommandType type = CommandType.valueOf(actionName
+		    .replace(COMMAND_WORD_DELIMITER, ENUM_WORD_DELIMITER)
+		    .toUpperCase());
 	    current = Optional.of(type.getCommand());
 	} catch (IllegalArgumentException e) {
 	    LOGGER.error(actionName + " not defined as CommandTypeF.", e);

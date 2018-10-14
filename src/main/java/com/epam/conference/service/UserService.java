@@ -15,6 +15,15 @@ import com.epam.conference.util.validator.InputValidator;
 
 public class UserService {
 
+    private static final UserService INSTANCE = new UserService();
+
+    private UserService() {
+    }
+
+    public static UserService getInstance() {
+	return INSTANCE;
+    }
+
     public boolean addUser(String login, String password, String firstName,
 	    String lastName, String email, String phone)
 	    throws ConferenceAppServiceException {

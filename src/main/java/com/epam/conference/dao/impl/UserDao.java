@@ -13,20 +13,27 @@ import com.epam.conference.entity.UserRole;
 import com.epam.conference.exception.ConferenceAppDaoException;
 import com.epam.conference.util.PasswordEncryptor;
 
+/**
+ * DAO class used for working with {@code User} objects and modifying data in
+ * corresponding tables of database.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class UserDao extends AbstractDao<User> {
 
     private static final String FIND_ALL = "SELECT u.id, u.login, u.firstname, u.lastname, r.name, u.email, u.phone, u.create_time, u.is_blocked"
 	    + " FROM user AS u JOIN role AS r ON u.role_id = r.id";
-    private static final String FIND_BY_ID = "SELECT u.login, u.firstname, u.lastname, r.name, u.email, u.phone, u.create_time, u.is_blocked"
+    private static final String FIND_BY_ID = "SELECT u.id, u.login, u.firstname, u.lastname, r.name, u.email, u.phone, u.create_time, u.is_blocked"
 	    + " FROM user AS u JOIN role AS r ON u.role_id = r.id WHERE u.id = ?";
-    private static final String INSERT = "INSERT INTO user (id, login, password, firstname, lastname, role_id, email, phone, create_time, is_blocked)"
-	    + " VALUES (null, ?, ?, ?, ?, (SELECT id FROM role WHERE name = ?), ?, ?, UNIX_TIMESTAMP(), default)";
-    private static final String UPDATE = "UPDATE user AS u SET u.login = ?, u.firstname = ?, u.lastname = ?,"
-	    + " u.role_id = (SELECT id FROM role WHERE name = ?), u.email = ?, u.phone = ?, u.is_blocked = ? WHERE u.id = ?";
-    private static final String DELETE = "DELETE FROM user WHERE id = ?";
-    private static final String FIND_BY_LOGIN = "SELECT u.id, u.firstname, u.lastname, r.name, u.email, u.phone, u.create_time, u.is_blocked"
+    private static final String FIND_BY_LOGIN = "SELECT u.id, u.login, u.firstname, u.lastname, r.name, u.email, u.phone, u.create_time, u.is_blocked"
 	    + " FROM user AS u JOIN role AS r ON u.role_id = r.id WHERE u.login = ?";
     private static final String FIND_PASS_BY_LOGIN = "SELECT password FROM user WHERE login = ?";
+    private static final String INSERT = "INSERT INTO user (id, login, password, firstname, lastname, role_id, email, phone, create_time, is_blocked)"
+	    + " VALUES (null, ?, ?, ?, ?, (SELECT id FROM role WHERE name = ?), ?, ?, UNIX_TIMESTAMP(), default)";
+    private static final String DELETE = "DELETE FROM user WHERE id = ?";
+    private static final String UPDATE = "UPDATE user AS u SET u.login = ?, u.firstname = ?, u.lastname = ?,"
+	    + " u.role_id = (SELECT id FROM role WHERE name = ?), u.email = ?, u.phone = ?, u.is_blocked = ? WHERE u.id = ?";
     private static final String UPDATE_PASS_BY_LOGIN = "UPDATE user SET password = ? WHERE login = ?";
 
     private static final String ID = "id";
@@ -58,6 +65,17 @@ public class UserDao extends AbstractDao<User> {
 	}
     }
 
+    /**
+     * Overloaded method which add user entity with password field.
+     * 
+     * @param entity
+     *            an user object
+     * @param password
+     *            string contain user password
+     * @return if add database table entry.
+     * @throws ConferenceAppDaoException
+     *             if error is occurred execute command.
+     */
     public boolean add(User entity, String password)
 	    throws ConferenceAppDaoException {
 	try (PreparedStatement statement = connection
@@ -94,17 +112,7 @@ public class UserDao extends AbstractDao<User> {
 	    statement.setLong(1, id);
 	    ResultSet resultSet = statement.executeQuery();
 	    if (resultSet.next()) {
-		user = new User();
-		user.setId(id);
-		user.setLogin(resultSet.getString(LOGIN));
-		user.setFirstName(resultSet.getString(FNAME));
-		user.setLastName(resultSet.getString(LNAME));
-		user.setUserRole(UserRole
-			.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()));
-		user.setEmail(resultSet.getString(EMAIL));
-		user.setPhone(resultSet.getString(PHONE));
-		user.setCreateTime(resultSet.getLong(CREATE_TIME));
-		user.setBlocked(resultSet.getBoolean(IS_BLOCKED));
+		user = createUser(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find user by id.", e);
@@ -120,17 +128,7 @@ public class UserDao extends AbstractDao<User> {
 	    statement.setString(1, name);
 	    ResultSet resultSet = statement.executeQuery();
 	    if (resultSet.next()) {
-		user = new User();
-		user.setId(resultSet.getLong(ID));
-		user.setLogin(name);
-		user.setFirstName(resultSet.getString(FNAME));
-		user.setLastName(resultSet.getString(LNAME));
-		user.setUserRole(UserRole
-			.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()));
-		user.setEmail(resultSet.getString(EMAIL));
-		user.setPhone(resultSet.getString(PHONE));
-		user.setCreateTime(resultSet.getLong(CREATE_TIME));
-		user.setBlocked(resultSet.getBoolean(IS_BLOCKED));
+		user = createUser(resultSet);
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find user by name.", e);
@@ -145,18 +143,7 @@ public class UserDao extends AbstractDao<User> {
 		.getPrepareStatement(FIND_ALL)) {
 	    ResultSet resultSet = statement.executeQuery();
 	    while (resultSet.next()) {
-		User user = new User();
-		user.setId(resultSet.getLong(ID));
-		user.setLogin(resultSet.getString(LOGIN));
-		user.setFirstName(resultSet.getString(FNAME));
-		user.setLastName(resultSet.getString(LNAME));
-		user.setUserRole(UserRole
-			.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()));
-		user.setEmail(resultSet.getString(EMAIL));
-		user.setPhone(resultSet.getString(PHONE));
-		user.setCreateTime(resultSet.getLong(CREATE_TIME));
-		user.setBlocked(resultSet.getBoolean(IS_BLOCKED));
-		list.add(user);
+		list.add(createUser(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new ConferenceAppDaoException("Can't find users in db.", e);
@@ -210,5 +197,20 @@ public class UserDao extends AbstractDao<User> {
 	    throw new ConferenceAppDaoException("Can't update user password.",
 		    e);
 	}
+    }
+
+    private User createUser(ResultSet resultSet) throws SQLException {
+	User user = new User();
+	user.setId(resultSet.getLong(ID));
+	user.setLogin(resultSet.getString(LOGIN));
+	user.setFirstName(resultSet.getString(FNAME));
+	user.setLastName(resultSet.getString(LNAME));
+	user.setUserRole(
+		UserRole.valueOf(resultSet.getString(ROLE_NAME).toUpperCase()));
+	user.setEmail(resultSet.getString(EMAIL));
+	user.setPhone(resultSet.getString(PHONE));
+	user.setCreateTime(resultSet.getLong(CREATE_TIME));
+	user.setBlocked(resultSet.getBoolean(IS_BLOCKED));
+	return user;
     }
 }

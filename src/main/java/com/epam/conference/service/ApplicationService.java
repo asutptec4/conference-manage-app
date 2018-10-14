@@ -12,17 +12,26 @@ import com.epam.conference.dao.impl.SectionDao;
 import com.epam.conference.dao.impl.StatusDao;
 import com.epam.conference.dao.impl.UserDao;
 import com.epam.conference.entity.Application;
+import com.epam.conference.entity.ApplicationInfo;
 import com.epam.conference.entity.Conference;
 import com.epam.conference.entity.Report;
 import com.epam.conference.entity.Section;
 import com.epam.conference.entity.Status;
 import com.epam.conference.entity.User;
-import com.epam.conference.entity.dto.ApplicationInfo;
 import com.epam.conference.exception.ConferenceAppDaoException;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.util.DateTimeConverter;
 
 public class ApplicationService {
+
+    private static final ApplicationService INSTANCE = new ApplicationService();
+
+    private ApplicationService() {
+    }
+
+    public static ApplicationService getInstance() {
+	return INSTANCE;
+    }
 
     public boolean addApplication(long sectionId, long reportId, String date)
 	    throws ConferenceAppServiceException {
@@ -115,6 +124,7 @@ public class ApplicationService {
 		    if (user.getId() == applicInf.getUserId()) {
 			applicInf.setUserName(
 				user.getFirstName() + " " + user.getLastName());
+			applicInf.setLogin(user.getLogin());
 		    }
 		}
 	    });

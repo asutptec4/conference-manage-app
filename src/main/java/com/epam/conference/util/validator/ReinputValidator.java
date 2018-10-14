@@ -1,10 +1,13 @@
 package com.epam.conference.util.validator;
 
+import com.epam.conference.controller.RequestContent;
 import com.epam.conference.util.PasswordEncryptor;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.SessionConstant;
 
-public class ReinputValidator {
+public final class ReinputValidator {
+
+    private ReinputValidator() {
+    }
 
     public static boolean validate(RequestContent content, String... field) {
 	boolean result = false;

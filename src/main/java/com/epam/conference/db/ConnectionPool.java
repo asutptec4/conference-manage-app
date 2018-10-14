@@ -18,7 +18,7 @@ import com.epam.conference.exception.ConnectionPoolException;
 
 /**
  * Class {@code ConnectionPool} used for creation and manage database
- * connection.
+ * connection. Pool realize singleton pattern.
  * 
  * @author Alexander Shishonok
  */
@@ -27,9 +27,24 @@ public class ConnectionPool {
     private static final Logger LOGGER = LogManager
 	    .getLogger(ConnectionPool.class);
 
+    /**
+     * Instance of {@code ConnectionPool}.
+     */
     private static ConnectionPool instance;
+
+    /**
+     * Numbers of connection in pool.
+     */
     private int size;
+
+    /**
+     * Collection for database connection.
+     */
     private BlockingQueue<ProxyConnection> freeConnections;
+
+    /**
+     * Flag indicates that the pool is created.
+     */
     private static AtomicBoolean isExist = new AtomicBoolean(false);
     private static Lock lock = new ReentrantLock();
 
@@ -40,7 +55,7 @@ public class ConnectionPool {
     /**
      * Method return instance of {@code ConnectionPool} class.
      * 
-     * @return instance of {@code ConnectionPool} class
+     * @return instance of {@code ConnectionPool} class.
      */
     public static ConnectionPool getInstance() {
 	if (!isExist.get()) {
@@ -61,7 +76,7 @@ public class ConnectionPool {
     /**
      * Method get {@code Connection} instance from pool.
      * 
-     * @return instance of {@code Connection}
+     * @return instance of {@code Connection}.
      * @throws ConnectionPoolException
      *             throw if fail to get connection from pool.
      */
@@ -81,7 +96,7 @@ public class ConnectionPool {
      * Method return {@code Connection} instance back to pool.
      * 
      * @param connection
-     *            returned connection
+     *            returned connection.
      * @throws ConnectionPoolException
      *             throw if connection not return to pool.
      */
@@ -135,6 +150,14 @@ public class ConnectionPool {
 	}
     }
 
+    /**
+     * Close connection in connection pool.
+     * 
+     * @param connections
+     *            connection queue.
+     * @throws SQLException
+     *             if a database access error occurs.
+     */
     private void closeConnections(BlockingQueue<ProxyConnection> connections)
 	    throws SQLException {
 	ProxyConnection connection = null;

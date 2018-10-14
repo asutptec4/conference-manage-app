@@ -4,12 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.UserService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
 import com.epam.conference.util.MessageManager;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
@@ -23,7 +23,7 @@ public class EditUserCommand implements Command {
     @Override
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
-	UserService service = new UserService();
+	UserService service = UserService.getInstance();
 	String login = InputValidator.removeScript(
 		requestContent.getRequestParameter(RequestConstant.USER_LOGIN));
 	String password = InputValidator.removeScript(requestContent

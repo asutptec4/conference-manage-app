@@ -12,7 +12,7 @@
 		<form action="${pageContext.request.contextPath}/controller" method="post" role="form">
 			<input type="hidden" name="command" value="${command}" />
 			<input type="hidden" name="conferenceId" value="${conferenceId}" />
-			<c:if test="${command == 'editSection'}">
+			<c:if test="${command == 'edit-section'}">
 				<input type="hidden" name="sectionId" value="${section.id}" />
 			</c:if>
 			<h3>

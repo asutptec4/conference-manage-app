@@ -9,7 +9,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
 /**
- * Servlet Filter implementation class CharacterEncodingFilter
+ * CharacterEncodingFilter class implements Servlet {@code Filter}. Used to set
+ * charset of request/response value UTF-8.
  */
 @WebFilter("/*")
 public class CharacterEncodingFilter implements Filter {

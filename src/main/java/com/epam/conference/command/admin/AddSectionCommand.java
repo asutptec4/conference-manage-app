@@ -4,12 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.conference.command.Command;
+import com.epam.conference.controller.PageRouter;
+import com.epam.conference.controller.RequestContent;
+import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.ConferenceService;
-import com.epam.conference.servlet.PageRouter;
-import com.epam.conference.servlet.PageRouter.PageRouterType;
 import com.epam.conference.util.MessageManager;
-import com.epam.conference.util.RequestContent;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
@@ -32,7 +32,7 @@ public class AddSectionCommand implements Command {
 		    .getRequestParameter(RequestConstant.SECTION_DESC));
 	    long conferenceId = Long.parseLong(requestContent
 		    .getRequestParameter(RequestConstant.CONFERENCE_ID));
-	    ConferenceService service = new ConferenceService();
+	    ConferenceService service = ConferenceService.getInstance();
 	    boolean flag = false;
 	    try {
 		flag = InputValidator.validateSection(name, description)

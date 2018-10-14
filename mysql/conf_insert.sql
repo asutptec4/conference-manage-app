@@ -38,13 +38,13 @@ INSERT INTO `conference` (`id`, `name`, `startdate`, `enddate`, `location`, `des
 -- Дамп данных таблицы conference_db.report: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `report` DISABLE KEYS */;
 INSERT INTO `report` (`id`, `user_id`, `report_name`, `description`) VALUES
-	(1, 2, 'Cloud native Java EE', 'This talk shows what it takes to implement cloud-ready, adaptive and scalable applications using Java EE, which extensions are out there that help us do the job and why Java EE perfectly fits the container and orchestration world.'),
-	(2, 3, 'Java 9 Modules. Why not OSGi?', 'Modules will inevitably appear in Java 9. Some people are little worried about it, some are scared, and some genuinely perplexed: why do we need them, if we have OSGi for more than 15 years that solves exactly the same problems as Java 9 modules?'),
-	(3, 4, 'Patterns and Аnti-patterns in Java 8', 'Java 8 is being around for a while already and lot of us are already using Java 8 features on our projects. But do we use these great Java 8 features correctly and efficiently? Having done lots of code reviews during last years I have seen some common antipatterns of Java 8 features usage. In this talk I want to show you some of the examples where Java 8 features were misused or poorly used and show you how certain things could have been better implemented.'),
-	(4, 5, 'Concurrency For Humans', 'When you open the concurrency chapter of your favorite Java book, you\'ll learn about threads, synchronized methods, wait, and notify. But that\'s not how you should write concurrent code. As you will see in this talk, you should think in terms of tasks, not threads. Use threadsafe data structures and parallel streams, and use them correctly. And embrace asynchronous processing. The talk shows how the Java standard library gives you all the tools you need for common coding patterns, without ever having to resort to locks or conditions.'),
-	(5, 6, 'Runtime vs. compile time (JIT vs. AOT) optimizations in Java and C++', 'The talk reveals how Just In Time Compiler (e.g. JIT C2) from HotSpot/OpenJDK internally manages runtime optimizations for hot methods in comparison to ahead of time approach triggered by LLVM clang on similar C++ source code, emphasizing all of the internals and strategies used by each Compiler to achieve better performance. For each optimization there is a similar Java and C++ source code and corresponding generated assembly code in order to prove what really happens under the hood. Each test is covered by a dedicated language benchmark and conclusions.'),
-	(6, 7, 'Java Code Coverage mechanics', 'JaCoCo is a widely adopted code coverage library for the JVM which is integrated in many build tools and IDEs. In this talk the two core authors Evgeny and Marc will explore the implementation details of the library. As JaCoCo is fully based on Java bytecode we will do a deep dive into some internals of the JVM, different Java compilers and into corner cases of the respective specifications and implementations.'),
-	(7, 8, 'JUnit 5 extensions: from conditional test execution to test templates', 'add later');
+	(1, 3, 'Cloud native Java EE', 'This talk shows what it takes to implement cloud-ready, adaptive and scalable applications using Java EE, which extensions are out there that help us do the job and why Java EE perfectly fits the container and orchestration world.'),
+	(2, 4, 'Java 9 Modules. Why not OSGi?', 'Modules will inevitably appear in Java 9. Some people are little worried about it, some are scared, and some genuinely perplexed: why do we need them, if we have OSGi for more than 15 years that solves exactly the same problems as Java 9 modules?'),
+	(3, 5, 'Patterns and Аnti-patterns in Java 8', 'Java 8 is being around for a while already and lot of us are already using Java 8 features on our projects. But do we use these great Java 8 features correctly and efficiently? Having done lots of code reviews during last years I have seen some common antipatterns of Java 8 features usage. In this talk I want to show you some of the examples where Java 8 features were misused or poorly used and show you how certain things could have been better implemented.'),
+	(4, 6, 'Concurrency For Humans', 'When you open the concurrency chapter of your favorite Java book, you\'ll learn about threads, synchronized methods, wait, and notify. But that\'s not how you should write concurrent code. As you will see in this talk, you should think in terms of tasks, not threads. Use threadsafe data structures and parallel streams, and use them correctly. And embrace asynchronous processing. The talk shows how the Java standard library gives you all the tools you need for common coding patterns, without ever having to resort to locks or conditions.'),
+	(5, 7, 'Runtime vs. compile time (JIT vs. AOT) optimizations in Java and C++', 'The talk reveals how Just In Time Compiler (e.g. JIT C2) from HotSpot/OpenJDK internally manages runtime optimizations for hot methods in comparison to ahead of time approach triggered by LLVM clang on similar C++ source code, emphasizing all of the internals and strategies used by each Compiler to achieve better performance. For each optimization there is a similar Java and C++ source code and corresponding generated assembly code in order to prove what really happens under the hood. Each test is covered by a dedicated language benchmark and conclusions.'),
+	(6, 8, 'Java Code Coverage mechanics', 'JaCoCo is a widely adopted code coverage library for the JVM which is integrated in many build tools and IDEs. In this talk the two core authors Evgeny and Marc will explore the implementation details of the library. As JaCoCo is fully based on Java bytecode we will do a deep dive into some internals of the JVM, different Java compilers and into corner cases of the respective specifications and implementations.'),
+	(7, 9, 'JUnit 5 extensions: from conditional test execution to test templates', 'add later');
 /*!40000 ALTER TABLE `report` ENABLE KEYS */;
 
 -- Дамп данных таблицы conference_db.role: ~0 rows (приблизительно)
@@ -74,16 +74,18 @@ INSERT INTO `status` (`id`, `name`) VALUES
 -- Дамп данных таблицы conference_db.user: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `login`, `password`, `firstname`, `lastname`, `role_id`, `email`, `phone`, `create_time`, `is_blocked`) VALUES
-	(1, 'miron', '2be2f293088b40e3f364fa3393a079a9', 'Dmitry', 'Mironovich', 1, 'dmitry.mironov@gmail.com', '+375297353879', 1534770723, b'0'),
-	(2, 'evilgenius', '538aa42c66ee8c75fd46ca616aab81f8', 'Vladimir', 'Malafei', 2, 'malafey38@mail.ru', '+375293759262', 1534771074, b'0'),
-	(3, 'victor88', 'eac5991eab01f027a0abefbfe64f049b', 'Victor', 'Matusevich', 2, 'matusevic85@gmail.com', '+375297346245', 1534771074, b'0'),
-	(4, 'kazak68', '16b5e18139d9ecf3bb45ab3e3689d038', 'Pavel', 'Barsuk', 2, 'kazak68@tut.by', '+375291725962', 1534771595, b'0'),
-	(5, 'nataska', '0457495407c3c414d84d0ce6d00ed1f1', 'Natalya', 'Shliapik', 2, 'Shliapik.N@gmail.com', '+375295825487', 1534771595, b'0'),
-	(6, 'maxim27', '794bb184155eef3fe7e59055b19adf8c', 'Max', 'Petrov', 2, 'petrov@tut.by', '+375297344218', 1534834825, b'0'),
-	(7, 'bestbuyer', 'cf6ba2bdfa03e81b064303022fb7b774', 'Elena', 'Petrova', 2, 'bestbuyer@gmail.com', '+375291647291', 1534834825, b'0'),
-	(8, 'ivanTP', '0c4691408c22ee1da059066c52d68035', 'Ivan', 'Ivanov', 2, 'ivanov@mail.ru', '+375295825812', 1534835004, b'0'),
-	(9, 'petrovich', '4857f95a259ea025444a2914222a0ab4', 'Petr', 'Petrovich', 2, 'petrovich@gmail.com', '+375295238162', 1534835004, b'0'),
-	(10, 'rutkoalex', '890770bd78ccf1c467acd557da0400d6', 'Alexander', 'Rutko', 2, 'rutko@gmail.com', '+375294629642', 1534835602, b'0');
+	(1, 'administrators', '', 'administrators', 'administrators', 1, 'administrators@gmail.com', '+375297777777', 0, b'0');
+	(2, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'Admin', 1, 'admin@gmail.com', '+375291234567', 1534670723, b'0'),
+	(3, 'miron', '2be2f293088b40e3f364fa3393a079a9', 'Dmitry', 'Mironovich', 2, 'dmitrymironov@gmail.com', '+375297353879', 1534770723, b'0'),
+	(4, 'evilgenius', '538aa42c66ee8c75fd46ca616aab81f8', 'Vladimir', 'Malafei', 2, 'malafey38@mail.ru', '+375293759262', 1534771074, b'0'),
+	(5, 'victor88', 'eac5991eab01f027a0abefbfe64f049b', 'Victor', 'Matusevich', 2, 'matusevic85@gmail.com', '+375297346245', 1534771074, b'0'),
+	(6, 'kazak68', '16b5e18139d9ecf3bb45ab3e3689d038', 'Pavel', 'Barsuk', 2, 'kazak68@tut.by', '+375291725962', 1534771595, b'0'),
+	(7, 'nataska', '0457495407c3c414d84d0ce6d00ed1f1', 'Natalya', 'Shliapik', 2, 'ShliapikN@gmail.com', '+375295825487', 1534771595, b'0'),
+	(8, 'maxim27', '794bb184155eef3fe7e59055b19adf8c', 'Max', 'Petrov', 2, 'petrov@tut.by', '+375297344218', 1534834825, b'0'),
+	(9, 'bestbuyer', 'cf6ba2bdfa03e81b064303022fb7b774', 'Elena', 'Petrova', 2, 'bestbuyer@gmail.com', '+375291647291', 1534834825, b'0'),
+	(10, 'ivanTP', '0c4691408c22ee1da059066c52d68035', 'Ivan', 'Ivanov', 2, 'ivanov@mail.ru', '+375295825812', 1534835004, b'0'),
+	(11, 'petrovich', '4857f95a259ea025444a2914222a0ab4', 'Petr', 'Petrovich', 2, 'petrovich@gmail.com', '+375295238162', 1534835004, b'0'),
+	(12, 'rutkoalex', '890770bd78ccf1c467acd557da0400d6', 'Alexander', 'Rutko', 2, 'rutko@gmail.com', '+375294629642', 1534835602, b'0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

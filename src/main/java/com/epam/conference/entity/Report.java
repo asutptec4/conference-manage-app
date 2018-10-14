@@ -1,11 +1,28 @@
 package com.epam.conference.entity;
 
+/**
+ * The {@code Report} class described user's report for conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class Report extends Entity {
 
     private static final long serialVersionUID = 9045619954993908106L;
 
+    /**
+     * Field identify user of report.
+     */
     private long userId;
+
+    /**
+     * Title of the report.
+     */
     private String name;
+
+    /**
+     * Description of report.
+     */
     private String description;
 
     public String getName() {
