@@ -14,8 +14,14 @@ import com.epam.conference.util.MessageManager;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
-import com.epam.conference.util.validator.InputValidator;
 
+/**
+ * Authentication command class implements {@link Command} interface. Check that
+ * user was registered in web app and insert correct password.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class LoginCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -30,8 +36,7 @@ public class LoginCommand implements Command {
 		.getRequestParameter(RequestConstant.USER_PASSWORD);
 	boolean flag = false;
 	try {
-	    flag = InputValidator.validateUserName(login)
-		    && service.checkLogin(login, pass);
+	    flag = service.checkUser(login, pass);
 	} catch (ConferenceAppServiceException e) {
 	    LOGGER.error("User is not valid", e);
 	}
@@ -48,7 +53,7 @@ public class LoginCommand implements Command {
 	    router.setRouterType(PageRouterType.REDIRECT);
 	    router.setPagePath(UriPathConstant.PATH_INDEX);
 	} else {
-	    requestContent.setRequestAttribute(ERROR_MESSAGE,
+	    requestContent.setRequestAttribute(RequestConstant.ERROR_MESSAGE,
 		    MessageManager
 			    .choose((String) requestContent.getSessionAttribute(
 				    SessionConstant.LOCALE))
@@ -57,5 +62,4 @@ public class LoginCommand implements Command {
 	}
 	return router;
     }
-
 }

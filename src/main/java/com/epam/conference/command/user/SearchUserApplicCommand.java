@@ -13,6 +13,13 @@ import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SearchUserApplicCommand} class implements {@link Command} interface.
+ * Execute of command find and return to view all user application.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchUserApplicCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -39,5 +46,4 @@ public class SearchUserApplicCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_VIEW_APPLIC);
 	return router;
     }
-
 }

@@ -15,6 +15,14 @@ import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * {@code EditApplicationCommand} class implements {@link Command} interface.
+ * Edit user application for participation in the conference. Administrator
+ * change date of report and current status of the application.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class EditApplicationCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -43,12 +51,13 @@ public class EditApplicationCommand implements Command {
 		LOGGER.error("Fail to change application id=" + applicId, e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.editapplic"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.editapplic"));
@@ -59,5 +68,4 @@ public class EditApplicationCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_APPLICATION_ALL);
 	return router;
     }
-
 }

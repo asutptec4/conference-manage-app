@@ -14,6 +14,13 @@ import com.epam.conference.exception.ConferenceAppDaoException;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.util.DateTimeConverter;
 
+/**
+ * Service class is used for working with {@link Conference} and {@link Section}
+ * objects via DAO layer classes. {@code ConferenceService} is singleton.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ConferenceService {
 
     private static final ConferenceService INSTANCE = new ConferenceService();
@@ -25,6 +32,23 @@ public class ConferenceService {
 	return INSTANCE;
     }
 
+    /**
+     * Create new conference and add to database.
+     * 
+     * @param name
+     *            name of conference.
+     * @param startDate
+     *            conference start date.
+     * @param endDate
+     *            conference end date.
+     * @param location
+     *            conference location.
+     * @param descripiton
+     *            conference description.
+     * @return true if conference created.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public boolean addConference(String name, String startDate, String endDate,
 	    String location, String descripiton)
 	    throws ConferenceAppServiceException {
@@ -44,6 +68,19 @@ public class ConferenceService {
 	return flag;
     }
 
+    /**
+     * Create new section of conference.
+     * 
+     * @param name
+     *            name of conference's section.
+     * @param description
+     *            section description.
+     * @param conferenceId
+     *            conference identifier that contains this section.
+     * @return true if section of conference added.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public boolean addSection(String name, String description,
 	    long conferenceId) throws ConferenceAppServiceException {
 	boolean flag = false;
@@ -60,6 +97,15 @@ public class ConferenceService {
 	return flag;
     }
 
+    /**
+     * Method find conference by id.
+     * 
+     * @param id
+     *            conference identifier.
+     * @return an {@link Conference} object wrapped in {@link Optional}.
+     * @throws ConferenceAppServiceException
+     *             if fail to find conference in database.
+     */
     public Optional<Conference> findConferenceById(long id)
 	    throws ConferenceAppServiceException {
 	Optional<Conference> conference = Optional.empty();
@@ -72,6 +118,16 @@ public class ConferenceService {
 	return conference;
     }
 
+    /**
+     * Method find conference by name.
+     * 
+     * @param name
+     *            conference name or part of name.
+     * @return an {@link List} of conferences contain string {@code name} in
+     *         conference name.
+     * @throws ConferenceAppServiceException
+     *             if fail to find conference in database.
+     */
     public List<Conference> findConferenceByName(String name)
 	    throws ConferenceAppServiceException {
 	List<Conference> conferences = new ArrayList<>();
@@ -86,6 +142,15 @@ public class ConferenceService {
 	}).collect(Collectors.toList());
     }
 
+    /**
+     * Method find section by id.
+     * 
+     * @param id
+     *            section identifier.
+     * @return an {@link Section} object wrapped in {@link Optional}.
+     * @throws ConferenceAppServiceException
+     *             if fail to find section in database.
+     */
     public Optional<Section> findSectionById(long id)
 	    throws ConferenceAppServiceException {
 	Optional<Section> section = Optional.empty();
@@ -98,6 +163,15 @@ public class ConferenceService {
 	return section;
     }
 
+    /**
+     * Method find all section of conference.
+     * 
+     * @param conferenceId
+     *            conference identifier.
+     * @return an {@link List} of sections.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<Section> findSectionsOfConference(long conferenceId)
 	    throws ConferenceAppServiceException {
 	List<Section> sections = new ArrayList<>();
@@ -114,6 +188,13 @@ public class ConferenceService {
 	}).collect(Collectors.toList());
     }
 
+    /**
+     * Method find all conferences created in app.
+     * 
+     * @return an {@link List} of conferences.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<Conference> getConferenceList()
 	    throws ConferenceAppServiceException {
 	try (ConferenceDao dao = new ConferenceDao()) {
@@ -124,16 +205,13 @@ public class ConferenceService {
 	}
     }
 
-    public List<Conference> getConferencesByName(String name)
-	    throws ConferenceAppServiceException {
-	try (ConferenceDao dao = new ConferenceDao()) {
-	    return dao.findAll();
-	} catch (ConferenceAppDaoException e) {
-	    throw new ConferenceAppServiceException(
-		    "Fail to find conferences in db", e);
-	}
-    }
-
+    /**
+     * Method find all sections created in app.
+     * 
+     * @return an {@link List} of sections.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<Section> getSectionList() throws ConferenceAppServiceException {
 	List<Section> sections = new ArrayList<>();
 	try (SectionDao dao = new SectionDao()) {
@@ -145,6 +223,25 @@ public class ConferenceService {
 	return sections;
     }
 
+    /**
+     * Method update conference info.
+     * 
+     * @param id
+     *            conference identifier.
+     * @param name
+     *            conference name.
+     * @param startDate
+     *            conference start date.
+     * @param endDate
+     *            conference end date.
+     * @param location
+     *            conference location.
+     * @param descripiton
+     *            conference description.
+     * @return true if conference updated.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public boolean updateConference(long id, String name, String startDate,
 	    String endDate, String location, String descripiton)
 	    throws ConferenceAppServiceException {
@@ -165,6 +262,19 @@ public class ConferenceService {
 	return flag;
     }
 
+    /**
+     * Update section information.
+     * 
+     * @param id
+     *            section identifier.
+     * @param name
+     *            name of conference's section.
+     * @param description
+     *            section description.
+     * @return true if section info changed.
+     * @throws ConferenceAppServiceException
+     *             if fail update section in db.
+     */
     public boolean updateSection(long id, String name, String description)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
@@ -180,6 +290,15 @@ public class ConferenceService {
 	return flag;
     }
 
+    /**
+     * Delete conference from db. Delete only if conference hasn't any section.
+     * 
+     * @param id
+     *            conference identifier.
+     * @return true if successful delete.
+     * @throws ConferenceAppServiceException
+     *             if fail to delete from db.
+     */
     public boolean deleteConference(long id)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
@@ -194,6 +313,14 @@ public class ConferenceService {
 	return flag;
     }
 
+    /**
+     * Delete section only if section hasn't any application from user.
+     * 
+     * @param id
+     *            section identifier.
+     * @return true if delete.
+     * @throws ConferenceAppServiceException
+     */
     public boolean deleteSection(long id) throws ConferenceAppServiceException {
 	boolean flag = false;
 	try (SectionDao sectDao = new SectionDao();

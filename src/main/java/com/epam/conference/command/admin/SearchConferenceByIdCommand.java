@@ -15,11 +15,20 @@ import com.epam.conference.service.ConferenceService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Command used by administrators to find the conference for further change.
+ * Return to view information about conference and parameter with next command
+ * value.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchConferenceByIdCommand implements Command {
+
+    private static final String COMMAND_EDIT_CONFER = "edit-conference";
 
     private static final Logger LOGGER = LogManager
 	    .getLogger(SearchConferenceByIdCommand.class);
-    private static final String COMMAND_EDIT_CONFER = "edit-conference";
 
     @Override
     public PageRouter execute(RequestContent requestContent) {
@@ -45,5 +54,4 @@ public class SearchConferenceByIdCommand implements Command {
 	}
 	return router;
     }
-
 }

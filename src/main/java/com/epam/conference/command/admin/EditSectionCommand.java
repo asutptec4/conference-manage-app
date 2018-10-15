@@ -16,6 +16,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * {@code EditSectionCommand} class implements {@link Command} interface.
+ * Command of this class used for changing section data: name and description.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class EditSectionCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -38,15 +45,16 @@ public class EditSectionCommand implements Command {
 		flag = InputValidator.validateSection(name, description)
 			&& service.updateSection(id, name, description);
 	    } catch (ConferenceAppServiceException e) {
-		LOGGER.error("Fail to editsection", e);
+		LOGGER.error("Fail to edit section", e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.editsection"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.editsection"));
@@ -57,5 +65,4 @@ public class EditSectionCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_CONFER_SEARCH);
 	return router;
     }
-
 }

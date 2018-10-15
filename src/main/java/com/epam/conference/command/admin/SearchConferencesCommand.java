@@ -18,6 +18,15 @@ import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SearchConferencesCommand} class implements {@link Command}
+ * interface.Command used to display in view all conference with its sections.
+ * If request contains search word, used it to filter result list by conference
+ * name.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchConferencesCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -52,5 +61,4 @@ public class SearchConferencesCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_VIEW_CONFER);
 	return router;
     }
-
 }

@@ -133,5 +133,4 @@ public abstract class AbstractDao<T extends Entity> implements AutoCloseable {
 	    LOGGER.error("Fail to close connection.", e);
 	}
     }
-
 }

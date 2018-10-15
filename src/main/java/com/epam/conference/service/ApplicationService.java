@@ -22,7 +22,17 @@ import com.epam.conference.exception.ConferenceAppDaoException;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.util.DateTimeConverter;
 
+/**
+ * Service class is used for working with {@link Application} objects via DAO
+ * layer classes.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ApplicationService {
+
+    private static final String CANCEL = "%cancel%";
+    private static final String NEW = "%new%";
 
     private static final ApplicationService INSTANCE = new ApplicationService();
 
@@ -33,6 +43,19 @@ public class ApplicationService {
 	return INSTANCE;
     }
 
+    /**
+     * Create new application for participation in the conference.
+     * 
+     * @param sectionId
+     *            section identifier.
+     * @param reportId
+     *            report identifier.
+     * @param date
+     *            date of participation in the conference.
+     * @return true if application is added.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public boolean addApplication(long sectionId, long reportId, String date)
 	    throws ConferenceAppServiceException {
 	Application application = new Application();
@@ -43,7 +66,7 @@ public class ApplicationService {
 	}
 	Status status = new Status();
 	try (StatusDao dao = new StatusDao()) {
-	    Optional<Status> optional = dao.findByName("%new%");
+	    Optional<Status> optional = dao.findByName(NEW);
 	    if (optional.isPresent()) {
 		status.setId(optional.get().getId());
 		status.setName(optional.get().getName());
@@ -66,6 +89,14 @@ public class ApplicationService {
 	return flag;
     }
 
+    /**
+     * Return list of {@link ApplicationInfo} objects contain full information
+     * about user's application of participation in the conference.
+     * 
+     * @return an {@link List} of {@link ApplicationInfo} objects.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<ApplicationInfo> getApplicationInfoList()
 	    throws ConferenceAppServiceException {
 	List<ApplicationInfo> applicList = new ArrayList<>();
@@ -135,6 +166,13 @@ public class ApplicationService {
 	return applicList;
     }
 
+    /**
+     * Method find all application.
+     * 
+     * @return an {@link List} of {@link Application} instances.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<Application> getApplicationList()
 	    throws ConferenceAppServiceException {
 	List<Application> applications = new ArrayList<>();
@@ -147,6 +185,15 @@ public class ApplicationService {
 	return applications;
     }
 
+    /**
+     * Method find {@code Application} by id.
+     * 
+     * @param id
+     *            application identifier.
+     * @return an {@link Application} object wrapped in {@link Optional}.
+     * @throws ConferenceAppServiceException
+     *             if fail to find application in database.
+     */
     public Optional<Application> findApplicationById(long id)
 	    throws ConferenceAppServiceException {
 	Optional<Application> application = Optional.empty();
@@ -159,16 +206,16 @@ public class ApplicationService {
 	return application;
     }
 
-    public List<ApplicationInfo> findApplicationInfoByUser(long userId)
-	    throws ConferenceAppServiceException {
-	List<ApplicationInfo> applicList = getApplicationInfoList();
-	applicList = applicList.stream()
-		.filter(applic -> applic.getUserId() == userId)
-		.collect(Collectors.toList());
-	return applicList;
-    }
-
-    public List<Application> findUserApplication(long userId)
+    /**
+     * Method find all application of the user.
+     * 
+     * @param userId
+     *            user identifier.
+     * @return an {@link List} of {@link Application} instances.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
+    public List<Application> findApplicationByUserId(long userId)
 	    throws ConferenceAppServiceException {
 	List<Application> applications = new ArrayList<>();
 	try (ApplicationDao dao = new ApplicationDao()) {
@@ -180,11 +227,45 @@ public class ApplicationService {
 	return applications;
     }
 
+    /**
+     * Method find all application of the user. Return full information about
+     * application.
+     * 
+     * @param userId
+     *            user identifier.
+     * @return an {@link List} of {@link ApplicationInfo} instances.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
+    public List<ApplicationInfo> findApplicationInfoByUser(long userId)
+	    throws ConferenceAppServiceException {
+	List<ApplicationInfo> applicList = getApplicationInfoList();
+	applicList = applicList.stream()
+		.filter(applic -> applic.getUserId() == userId)
+		.collect(Collectors.toList());
+	return applicList;
+    }
+
+    /**
+     * Method remove user application. Update user application in database with
+     * canceled status.
+     * 
+     * @param id
+     *            application identifier.
+     * @return true if command execute.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public boolean removeApplication(long id)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
-	try (ApplicationDao dao = new ApplicationDao()) {
-	    flag = dao.delete(id);
+	try (ApplicationDao dao = new ApplicationDao();
+		StatusDao statusDao = new StatusDao()) {
+	    Optional<Application> aplication = dao.findById(id);
+	    if (aplication.isPresent()) {
+		aplication.get().setStatus(statusDao.findByName(CANCEL).get());
+		flag = dao.update(aplication.get());
+	    }
 	} catch (ConferenceAppDaoException e) {
 	    throw new ConferenceAppServiceException(
 		    "Fail to delete application", e);
@@ -192,6 +273,13 @@ public class ApplicationService {
 	return flag;
     }
 
+    /**
+     * Return all statuses of application.
+     * 
+     * @return an {@link List} of {@link Status} objects.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<Status> getStatusList() throws ConferenceAppServiceException {
 	List<Status> statuses = new ArrayList<>();
 	try (StatusDao dao = new StatusDao()) {
@@ -203,33 +291,53 @@ public class ApplicationService {
 	return statuses;
     }
 
-    public boolean changeApplicStatus(long applicId, long statusId)
+    /**
+     * Method change status of application by id.
+     * 
+     * @param id
+     *            application id.
+     * @param statusId
+     *            new application status id.
+     * @return true if successfully change status of application.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
+    public boolean changeApplicStatus(long id, long statusId)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
 	try (ApplicationDao dao = new ApplicationDao()) {
-	    Application application = dao.findById(applicId).get();
+	    Application application = dao.findById(id).get();
 	    application.getStatus().setId(statusId);
 	    flag = dao.update(application);
 	} catch (ConferenceAppDaoException e) {
 	    throw new ConferenceAppServiceException(
-		    "Fail to change status of application with id=" + applicId,
-		    e);
+		    "Fail to change status of application with id=" + id, e);
 	}
 	return flag;
     }
 
-    public boolean changeApplicDate(long applicId, String reportDate)
+    /**
+     * Change report date of user application.
+     * 
+     * @param id
+     *            application identifier.
+     * @param reportDate
+     *            new report date.
+     * @return true if date changed.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
+    public boolean changeApplicDate(long id, String reportDate)
 	    throws ConferenceAppServiceException {
 	boolean flag = false;
 	try (ApplicationDao dao = new ApplicationDao()) {
-	    Application application = dao.findById(applicId).get();
+	    Application application = dao.findById(id).get();
 	    application
 		    .setReportDate(DateTimeConverter.convertToLong(reportDate));
 	    flag = dao.update(application);
 	} catch (ConferenceAppDaoException e) {
 	    throw new ConferenceAppServiceException(
-		    "Fail to change report date of application with id="
-			    + applicId,
+		    "Fail to change report date of application with id=" + id,
 		    e);
 	}
 	return flag;

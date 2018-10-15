@@ -12,20 +12,35 @@ import com.epam.conference.entity.User;
 import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.service.UserService;
 
+/**
+ * Tag used for output user first name and last name instead login.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class UserInfoTag extends SimpleTagSupport {
+
+    private static final String DEFAULT_NIK = "Unknown";
 
     private static final Logger LOGGER = LogManager
 	    .getLogger(UserInfoTag.class);
 
+    /**
+     * Tag attribute user login in web app.
+     */
     private String login;
 
     public void setLogin(String login) {
 	this.login = login;
     }
 
+    public String getLogin() {
+	return login;
+    }
+
     @Override
     public void doTag() throws JspException, IOException {
-	String result = "Unknown";
+	String result = DEFAULT_NIK;
 	if (login != null) {
 	    User user = null;
 	    try {

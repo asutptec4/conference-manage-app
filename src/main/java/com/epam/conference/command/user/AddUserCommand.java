@@ -16,6 +16,13 @@ import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 
+/**
+ * Register new user. If user input date is valid, create new user in database
+ * and authenticate his in web app.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class AddUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -39,8 +46,10 @@ public class AddUserCommand implements Command {
 		requestContent.getRequestParameter(RequestConstant.USER_PHONE));
 	boolean flag = false;
 	try {
-	    flag = service.addUser(login, password, firstName, lastName, email,
-		    phone);
+	    flag = InputValidator.validateUser(login, firstName, lastName,
+		    email, phone) && InputValidator.validatePassword(password)
+		    && service.addUser(login, password, firstName, lastName,
+			    email, phone);
 	} catch (ConferenceAppServiceException e) {
 	    LOGGER.error("Fail to add new users", e);
 	}
@@ -51,7 +60,7 @@ public class AddUserCommand implements Command {
 	    router.setRouterType(PageRouterType.REDIRECT);
 	    router.setPagePath(UriPathConstant.PATH_INDEX);
 	} else {
-	    requestContent.setRequestAttribute(ERROR_MESSAGE,
+	    requestContent.setRequestAttribute(RequestConstant.ERROR_MESSAGE,
 		    MessageManager
 			    .choose((String) requestContent.getSessionAttribute(
 				    SessionConstant.LOCALE))
@@ -61,5 +70,4 @@ public class AddUserCommand implements Command {
 	LOGGER.info("User created login=" + login);
 	return router;
     }
-
 }

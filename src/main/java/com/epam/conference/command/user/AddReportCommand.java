@@ -17,6 +17,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * {@code AddReportCommand} class implements {@link Command} interface. Command
+ * create new report.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class AddReportCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -50,14 +57,15 @@ public class AddReportCommand implements Command {
 		LOGGER.error("Fail to add new report", e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.addreport"));
 		router.setPagePath(UriPathConstant.PATH_REPORT_SEARCH);
 		LOGGER.info("User = " + userLogin + " add new report.");
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.addreport"));
@@ -69,5 +77,4 @@ public class AddReportCommand implements Command {
 	}
 	return router;
     }
-
 }

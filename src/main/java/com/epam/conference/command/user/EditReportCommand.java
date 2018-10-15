@@ -17,6 +17,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * Implements {@link Command} interface. This command used to change report
+ * details by user.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class EditReportCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -53,12 +60,13 @@ public class EditReportCommand implements Command {
 		LOGGER.error("Fail to update report with id=" + id, e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.editreport"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.editreport"));
@@ -69,5 +77,4 @@ public class EditReportCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_REPORT_SEARCH);
 	return router;
     }
-
 }

@@ -16,6 +16,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * {@code AddSectionCommand} class implements {@link Command} interface.
+ * Command used to add new section to existing conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class AddSectionCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -41,7 +48,7 @@ public class AddSectionCommand implements Command {
 		LOGGER.error("Fail to add new section", e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.addsection"));
@@ -49,7 +56,8 @@ public class AddSectionCommand implements Command {
 		LOGGER.info("Add new section=" + name + " in conference ="
 			+ conferenceId);
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.addsection"));
@@ -61,5 +69,4 @@ public class AddSectionCommand implements Command {
 	}
 	return router;
     }
-
 }

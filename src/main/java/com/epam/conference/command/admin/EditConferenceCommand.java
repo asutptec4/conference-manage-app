@@ -16,6 +16,12 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * By executing this class command administrator change the conference data.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class EditConferenceCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -52,12 +58,13 @@ public class EditConferenceCommand implements Command {
 		LOGGER.error("Fail to edit conference", e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.editconfer"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.editconfer"));
@@ -68,5 +75,4 @@ public class EditConferenceCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_CONFER_SEARCH);
 	return router;
     }
-
 }

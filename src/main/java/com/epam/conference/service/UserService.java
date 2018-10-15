@@ -13,6 +13,13 @@ import com.epam.conference.exception.ConferenceAppServiceException;
 import com.epam.conference.util.PasswordEncryptor;
 import com.epam.conference.util.validator.InputValidator;
 
+/**
+ * Service class is used for working with {@link User} objects via DAO layer
+ * classes. {@code UserService} is singleton.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class UserService {
 
     private static final UserService INSTANCE = new UserService();
@@ -24,6 +31,25 @@ public class UserService {
 	return INSTANCE;
     }
 
+    /**
+     * Create user object and add user in database.
+     * 
+     * @param login
+     *            user login.
+     * @param password
+     *            user password.
+     * @param firstName
+     *            user first name.
+     * @param lastName
+     *            user last name.
+     * @param email
+     *            user email address.
+     * @param phone
+     *            user phone.
+     * @return true if user add in database.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred to add new user.
+     */
     public boolean addUser(String login, String password, String firstName,
 	    String lastName, String email, String phone)
 	    throws ConferenceAppServiceException {
@@ -37,7 +63,9 @@ public class UserService {
 	user.setPhone(phone);
 	user.setBlocked(false);
 	try (UserDao dao = new UserDao()) {
-	    flag = dao.add(user, password);
+	    flag = InputValidator.validateUser(login, firstName, lastName,
+		    email, phone) && InputValidator.validatePassword(password)
+		    && dao.add(user, password);
 	} catch (ConferenceAppDaoException e) {
 	    throw new ConferenceAppServiceException("Can't add new user in db",
 		    e);
@@ -45,14 +73,25 @@ public class UserService {
 	return flag;
     }
 
-    public boolean checkLogin(String enterLogin, String enterPass)
+    /**
+     * Check if user registered in application. This method is used for user
+     * authentication.
+     * 
+     * @param login
+     *            user login.
+     * @param password
+     *            user password
+     * @return true if right user.
+     * @throws ConferenceAppServiceException
+     *             if fail to check user in database.
+     */
+    public boolean checkUser(String login, String password)
 	    throws ConferenceAppServiceException {
-	// TODO check is blocked
 	try (UserDao dao = new UserDao()) {
-	    if (dao.findByLogin(enterLogin).isPresent()) {
-		return dao.findPasswordByLogin(enterLogin)
+	    if (dao.findByLogin(login).isPresent()) {
+		return dao.findPasswordByLogin(login)
 			.flatMap(input -> Optional.ofNullable(PasswordEncryptor
-				.encrypt(enterPass).equals(input)))
+				.encrypt(password).equals(input)))
 			.orElse(false);
 	    }
 	} catch (ConferenceAppDaoException e) {
@@ -61,6 +100,15 @@ public class UserService {
 	return false;
     }
 
+    /**
+     * Find user by login.
+     * 
+     * @param login
+     *            user login wrapped in {@link Optional}.
+     * @return an {@link User} object.
+     * @throws ConferenceAppServiceException
+     *             if fail to find user in database.
+     */
     public Optional<User> findUserByLogin(String login)
 	    throws ConferenceAppServiceException {
 	Optional<User> user = Optional.empty();
@@ -73,6 +121,13 @@ public class UserService {
 	return user;
     }
 
+    /**
+     * Method return all user registered in app, except admins, as list.
+     * 
+     * @return an {@link List} object contain all users.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public List<User> getUserList() throws ConferenceAppServiceException {
 	List<User> users = new ArrayList<>();
 	try (UserDao dao = new UserDao()) {
@@ -87,6 +142,15 @@ public class UserService {
 	return result;
     }
 
+    /**
+     * Method return type of user role.
+     * 
+     * @param login
+     *            user login in app.
+     * @return {@code UserRole} object wrapped in {@link Optional}.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public Optional<UserRole> getUserRole(String login)
 	    throws ConferenceAppServiceException {
 	Optional<UserRole> role = Optional.empty();
@@ -98,6 +162,25 @@ public class UserService {
 	return role;
     }
 
+    /**
+     * Update user info.
+     * 
+     * @param login
+     *            user login.
+     * @param password
+     *            user password.
+     * @param firstName
+     *            user first name.
+     * @param lastName
+     *            user last name.
+     * @param email
+     *            user email address.
+     * @param phone
+     *            user phone.
+     * @return true if user updated.
+     * @throws ConferenceAppServiceException
+     *             if error is occurred working with db.
+     */
     public boolean updateUser(String login, String password, String firstName,
 	    String lastName, String email, String phone)
 	    throws ConferenceAppServiceException {

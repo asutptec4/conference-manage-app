@@ -17,6 +17,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * Send message command. Allow user send message to admin and admin send respond
+ * to user. Implements {@link Command} interface.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SendMessageCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -36,23 +43,20 @@ public class SendMessageCommand implements Command {
 		    .getSessionAttribute(SessionConstant.USER);
 	    MessageService service = MessageService.getInstance();
 	    boolean flag = false;
-	    // get user role from session
 	    if (UserRole.USER == requestContent
 		    .getSessionAttribute(SessionConstant.ROLE)) {
-		// if role USER
 		try {
 		    flag = InputValidator.validateMessage(text)
-			    && service.addMessage(login, MessageManager.EN
+			    && service.sendMessage(login, MessageManager.EN
 				    .getProperty("message.admin.login"), text);
 		} catch (ConferenceAppServiceException e) {
 		    LOGGER.error("Fail to add new message from user=" + login,
 			    e);
 		}
 	    } else {
-		// if role ADMIN
 		try {
 		    flag = InputValidator.validateMessage(text)
-			    && service.addMessage(
+			    && service.sendMessage(
 				    MessageManager.EN
 					    .getProperty("message.admin.login"),
 				    receiver, text);
@@ -62,12 +66,13 @@ public class SendMessageCommand implements Command {
 		}
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.addmessage"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.addmessage"));

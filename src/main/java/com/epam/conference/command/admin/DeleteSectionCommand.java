@@ -15,6 +15,13 @@ import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * Implements {@link Command} interface. Execution of this command delete chosen
+ * section.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class DeleteSectionCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -35,12 +42,13 @@ public class DeleteSectionCommand implements Command {
 		LOGGER.error("Fail to remove section id=" + id, e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.delete"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.delete"));
@@ -51,5 +59,4 @@ public class DeleteSectionCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_CONFER_SEARCH);
 	return router;
     }
-
 }

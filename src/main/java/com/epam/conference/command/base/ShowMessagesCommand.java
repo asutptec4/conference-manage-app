@@ -18,6 +18,12 @@ import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Command find all message between concrete user and administrators.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ShowMessagesCommand implements Command {
 
     private static final Logger LOGGER = LogManager

@@ -16,6 +16,14 @@ import com.epam.conference.service.ConferenceService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SearchConferByIdCommand} class implements {@link Command} interface.
+ * This command search conference by id for user. Used for represent information
+ * about the conference sections for user.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchConferByIdCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -45,5 +53,4 @@ public class SearchConferByIdCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_VIEW_CONFER);
 	return router;
     }
-
 }

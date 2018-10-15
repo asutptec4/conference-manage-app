@@ -15,21 +15,28 @@ import com.epam.conference.service.ConferenceService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SearchSectionCommand} class implements {@link Command} interface.
+ * Command used to forward to new section page or edit section page.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchSectionCommand implements Command {
 
     private static final String COMMAND_EDIT_SECTION = "edit-section";
     private static final String COMMAND_ADD_SECTION = "add-section";
+
     private static final Logger LOGGER = LogManager
 	    .getLogger(SearchSectionCommand.class);
-    private static final int FIRST_INDEX = 0;
 
     @Override
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
-	String sectionId = processRequestParameter(requestContent
-		.getRequestParameters(RequestConstant.SECTION_ID));
-	String conferenceId = processRequestParameter(requestContent
-		.getRequestParameters(RequestConstant.CONFERENCE_ID));
+	String sectionId = requestContent
+		.getRequestParameter(RequestConstant.SECTION_ID);
+	String conferenceId = requestContent
+		.getRequestParameter(RequestConstant.CONFERENCE_ID);
 	if (sectionId != null) {
 	    long id = Long.parseLong(sectionId);
 	    Optional<Section> optional = Optional.empty();
@@ -62,15 +69,5 @@ public class SearchSectionCommand implements Command {
 	    }
 	}
 	return router;
-    }
-
-    private String processRequestParameter(String[] str) {
-	String result = null;
-	if (str != null && str.length > 0) {
-	    if (str[FIRST_INDEX].length() > 0) {
-		result = str[FIRST_INDEX];
-	    }
-	}
-	return result;
     }
 }

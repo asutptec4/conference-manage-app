@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Object of {@code RequestContent} encapsulate data from clients request.
+ * Object of {@code RequestContent} encapsulate data from clients HttpRequest.
  * 
  * @author Alexander Shishonok
  *

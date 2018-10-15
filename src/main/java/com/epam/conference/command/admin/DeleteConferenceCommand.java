@@ -15,6 +15,13 @@ import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * Implements {@link Command} interface. Execution of this command delete chosen
+ * conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class DeleteConferenceCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -35,12 +42,13 @@ public class DeleteConferenceCommand implements Command {
 		LOGGER.error("Fail to remove conference id=" + id, e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.delete"));
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.delete"));

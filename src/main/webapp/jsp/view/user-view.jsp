@@ -28,8 +28,8 @@
 								<td><fmt:message key="page.user.lastname" bundle="${pagebundle}" /></td>
 								<td><fmt:message key="page.user.email" bundle="${pagebundle}" /></td>
 								<td><fmt:message key="page.user.phone" bundle="${pagebundle}" /></td>
-								<td><fmt:message key="page.view.user.createtime" bundle="${pagebundle}" /></td>
-								<td><fmt:message key="page.view.user.isblock" bundle="${pagebundle}" /></td>
+								<%-- <td><fmt:message key="page.view.user.createtime" bundle="${pagebundle}" /></td>
+								<td><fmt:message key="page.view.user.isblock" bundle="${pagebundle}" /></td> --%>
 								<c:if test="${not empty unreadList}">
 									<td class="bg-warning"><fmt:message key="page.view.user.unread" bundle="${pagebundle}" /></td>
 								</c:if>
@@ -49,8 +49,8 @@
 								<td>${user.lastName}</td>
 								<td>${user.phone}</td>
 								<td>${user.email}</td>
-								<td><ctl:long-date format="datetime">${user.createTime}</ctl:long-date></td>
-								<td>${user.blocked}</td>
+								<%-- <td><ctl:long-date format="datetime">${user.createTime}</ctl:long-date></td>
+								<td>${user.blocked}</td> --%>
 								<td><button type="submit" class="${buttonType}"
 										onclick="document.getElementById('receiver').value='${user.login}';
 											document.getElementById('command').value='show-messages';

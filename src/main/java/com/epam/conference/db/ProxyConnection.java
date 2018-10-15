@@ -409,5 +409,4 @@ public class ProxyConnection implements Connection {
     public <T> T unwrap(Class<T> iface) throws SQLException {
 	return connection.unwrap(iface);
     }
-
 }

@@ -4,6 +4,12 @@ import java.util.regex.Pattern;
 
 import com.epam.conference.util.DateTimeConverter;
 
+/**
+ * Utility class help to verify the correctness of the user input.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public final class InputValidator {
 
     private static final int CONF_DESC_MAXLEN = 255;
@@ -29,12 +35,36 @@ public final class InputValidator {
     private InputValidator() {
     }
 
+    /**
+     * Remove html script tag, prevent js-injection attack. Replace tag by empty
+     * string.
+     * 
+     * @param str
+     *            input string.
+     * @return if {@code str} has not script tag, return same string, else
+     *         return modified string.
+     */
     public static String removeScript(String str) {
 	return str != null && !str.isEmpty()
 		? str.replaceAll(REGEXP_SCRIPT, SCRIPT_REPLACE)
 		: str;
     }
 
+    /**
+     * Method verify input conference data.
+     * 
+     * @param name
+     *            conference name.
+     * @param location
+     *            conference location.
+     * @param startDate
+     *            conference start date.
+     * @param endDate
+     *            conference end date.
+     * @param description
+     *            conference description.
+     * @return true if valid data.
+     */
     public static boolean validateConference(String name, String location,
 	    String startDate, String endDate, String description) {
 	if (name != null && location != null && startDate != null
@@ -45,7 +75,6 @@ public final class InputValidator {
 		    && (description != null
 			    ? description.length() < CONF_DESC_MAXLEN
 			    : true);
-	    // TODO better time validation
 	    result = DateTimeConverter.convertToLong(
 		    startDate) < DateTimeConverter.convertToLong(endDate);
 	    return result;
@@ -54,10 +83,24 @@ public final class InputValidator {
 	}
     }
 
+    /**
+     * Verify input user's message.
+     * 
+     * @param text
+     *            message text.
+     * @return true if valid data.
+     */
     public static boolean validateMessage(String text) {
 	return (text != null) ? text.length() < MESS_MAXLEN : false;
     }
 
+    /**
+     * Verify user password field.
+     * 
+     * @param password
+     *            user password.
+     * @return true if valid.
+     */
     public static boolean validatePassword(String password) {
 	return password != null
 		? password.length() > PASS_MINLEN
@@ -65,12 +108,30 @@ public final class InputValidator {
 		: false;
     }
 
+    /**
+     * Method verify input report data.
+     * 
+     * @param name
+     *            report name.
+     * @param description
+     *            report description.
+     * @return true if data is correct.s
+     */
     public static boolean validateReport(String name, String description) {
 	return (name != null ? name.length() < REP_NAME_MAXLEN : false)
 		&& (description != null ? description.length() < REP_DESC_MAXLEN
 			: false);
     }
 
+    /**
+     * Verify section information of conference.
+     * 
+     * @param name
+     *            section name.
+     * @param description
+     *            section description.
+     * @return true if valid data.
+     */
     public static boolean validateSection(String name, String description) {
 	return (name != null ? name.length() < SECT_NAME_MAXLEN : false)
 		&& (description != null
@@ -78,6 +139,21 @@ public final class InputValidator {
 			: true);
     }
 
+    /**
+     * Validate user input data.
+     * 
+     * @param login
+     *            user login.
+     * @param firstName
+     *            user first name.
+     * @param lastName
+     *            user last name.
+     * @param email
+     *            user email.
+     * @param phone
+     *            user phone.
+     * @return true if data is valid.
+     */
     public static boolean validateUser(String login, String firstName,
 	    String lastName, String email, String phone) {
 	if (login != null && firstName != null && lastName != null
@@ -95,10 +171,5 @@ public final class InputValidator {
 	} else {
 	    return false;
 	}
-    }
-
-    public static boolean validateUserName(String userName) {
-	return userName != null ? Pattern.matches(REGEXP_USER, userName)
-		: false;
     }
 }

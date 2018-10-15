@@ -15,6 +15,13 @@ import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 
+/**
+ * {@code EditUserCommand} class implements {@link Command} interface. It is
+ * used to change user information or user password.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class EditUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -38,8 +45,10 @@ public class EditUserCommand implements Command {
 		requestContent.getRequestParameter(RequestConstant.USER_PHONE));
 	boolean flag = false;
 	try {
-	    flag = service.updateUser(login, password, firstName, lastName,
-		    email, phone);
+	    flag = InputValidator.validateUser(login, firstName, lastName,
+		    email, phone) && InputValidator.validatePassword(password)
+		    && service.updateUser(login, password, firstName, lastName,
+			    email, phone);
 	} catch (ConferenceAppServiceException e) {
 	    LOGGER.error("Fail to update users with login =" + login, e);
 	}
@@ -47,7 +56,7 @@ public class EditUserCommand implements Command {
 	    router.setRouterType(PageRouterType.REDIRECT);
 	    router.setPagePath(UriPathConstant.PATH_INDEX);
 	} else {
-	    requestContent.setRequestAttribute(ERROR_MESSAGE,
+	    requestContent.setRequestAttribute(RequestConstant.ERROR_MESSAGE,
 		    MessageManager
 			    .choose((String) requestContent.getSessionAttribute(
 				    SessionConstant.LOCALE))

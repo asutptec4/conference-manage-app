@@ -21,6 +21,8 @@ public final class RequestConstant {
     public static final String CONFERENCE_LOC = "conferLocation";
     public static final String CONFERENCE_NAME = "conferName";
     public static final String CONFERENCE_START = "conferStart";
+    public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String MESSAGE = "message";
     public static final String MESSAGES = "messageList";
     public static final String MESSAGE_TEXT = "messageText";
     public static final String RECEIVER = "receiver";

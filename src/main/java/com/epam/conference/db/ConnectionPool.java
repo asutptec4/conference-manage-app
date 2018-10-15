@@ -129,7 +129,7 @@ public class ConnectionPool {
 	}
     }
 
-    /**
+    /*
      * Method initialize ConnectionPool instance, register driver for JDBC,
      * create {@code Connection} instances.
      */
@@ -150,7 +150,7 @@ public class ConnectionPool {
 	}
     }
 
-    /**
+    /*
      * Close connection in connection pool.
      * 
      * @param connections

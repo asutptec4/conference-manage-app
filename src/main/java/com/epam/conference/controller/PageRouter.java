@@ -49,5 +49,4 @@ public class PageRouter {
 	}
 	this.routerType = routerType;
     }
-
 }

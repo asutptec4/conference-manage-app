@@ -14,6 +14,14 @@ import com.epam.conference.util.DateTimeConverter;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Implements {@link Command} interface. Execution of this command return all
+ * actual conferences in database, whose end date is greater than the current
+ * date.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ShowConferencesCommand implements Command {
 
     private static final Logger LOGGER = LogManager

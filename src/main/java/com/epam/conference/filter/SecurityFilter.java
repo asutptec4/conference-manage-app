@@ -31,7 +31,7 @@ public class SecurityFilter implements Filter {
 	HttpServletResponse resp = (HttpServletResponse) response;
 	HttpSession session = req.getSession();
 	UserRole role = null;
-	 //TODO protect command
+	// TODO protect command
 	if (!(req.getRequestURI().contains(UriPathConstant.PATH_LOGIN)
 		|| req.getRequestURI().contains(UriPathConstant.PATH_USER))) {
 	    if (session != null

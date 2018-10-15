@@ -17,16 +17,30 @@ import com.epam.conference.util.DateTimeConverter;
  */
 public class LongDateTag extends SimpleTagSupport {
 
-    private static final String NUMBER = "\\d+";
+    private static final String DATE_DELIM = "/";
+    private static final int DEC_BASE = 10;
+    private static final String DEF_DELIM = "-";
     private static final String FORMAT_DATE = "date";
     private static final String FORMAT_DATETIME = "datetime";
-    private static final String FORMAT_TIME = "time";
     private static final String FORMAT_HTML = "html";
+    private static final String FORMAT_TIME = "time";
+    private static final String NUMBER = "\\d+";
+    private static final String SPACE = " ";
+    private static final String T_DELIM = "T";
+    private static final String TIME_DELIM = ":";
+    private static final String ZERO = "0";
 
+    /**
+     * Tag attribute format.
+     */
     private String format;
 
     public void setFormat(String format) {
 	this.format = format;
+    }
+
+    public String getFormat() {
+	return format;
     }
 
     @Override
@@ -47,26 +61,31 @@ public class LongDateTag extends SimpleTagSupport {
 	    int minute = dateTime.getMinute();
 	    int second = dateTime.getSecond();
 	    if (FORMAT_DATE.equals(format)) {
-		result = (day < 10 ? "0" + day : day) + "/"
-			+ (month < 10 ? "0" + month : month) + "/" + year;
+		result = (day < DEC_BASE ? ZERO + day : day) + DATE_DELIM
+			+ (month < DEC_BASE ? ZERO + month : month) + DATE_DELIM
+			+ year;
 	    } else if (FORMAT_DATETIME.equals(format)) {
-		result = (day < 10 ? "0" + day : day) + "/"
-			+ (month < 10 ? "0" + month : month) + "/" + year + " "
-			+ (hour < 10 ? "0" + hour : hour) + ":"
-			+ (minute < 10 ? "0" + minute : minute) + ":"
-			+ (second < 10 ? "0" + second : second);
+		result = (day < DEC_BASE ? ZERO + day : day) + DATE_DELIM
+			+ (month < DEC_BASE ? ZERO + month : month) + DATE_DELIM
+			+ year + SPACE + (hour < DEC_BASE ? ZERO + hour : hour)
+			+ TIME_DELIM
+			+ (minute < DEC_BASE ? ZERO + minute : minute)
+			+ TIME_DELIM
+			+ (second < DEC_BASE ? ZERO + second : second);
 	    } else if (FORMAT_TIME.equals(format)) {
-		result = (hour < 10 ? "0" + hour : hour) + ":"
-			+ (minute < 10 ? "0" + minute : minute) + ":"
-			+ (second < 10 ? "0" + second : second);
+		result = (hour < DEC_BASE ? ZERO + hour : hour) + TIME_DELIM
+			+ (minute < DEC_BASE ? ZERO + minute : minute)
+			+ TIME_DELIM
+			+ (second < DEC_BASE ? ZERO + second : second);
 	    } else if (FORMAT_HTML.equals(format)) {
-		result = year + "-" + (month < 10 ? "0" + month : month) + "-"
-			+ (day < 10 ? "0" + day : day) + "T"
-			+ (hour < 10 ? "0" + hour : hour) + ":"
-			+ (minute < 10 ? "0" + minute : minute);
+		result = year + DEF_DELIM
+			+ (month < DEC_BASE ? ZERO + month : month) + DEF_DELIM
+			+ (day < DEC_BASE ? ZERO + day : day) + T_DELIM
+			+ (hour < DEC_BASE ? ZERO + hour : hour) + TIME_DELIM
+			+ (minute < DEC_BASE ? ZERO + minute : minute);
 	    } else {
-		result = (day < 10 ? "0" + day : day) + " "
-			+ dateTime.getMonth().toString().toLowerCase() + " "
+		result = (day < DEC_BASE ? ZERO + day : day) + SPACE
+			+ dateTime.getMonth().toString().toLowerCase() + SPACE
 			+ dateTime.getYear();
 	    }
 	} else {

@@ -16,6 +16,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * {@code AddConferenceCommand} class implements {@link Command} interface.
+ * Command used to add new conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class AddConferenceCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -50,14 +57,15 @@ public class AddConferenceCommand implements Command {
 		LOGGER.error("Fail to add new conference", e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.addconfer"));
 		router.setPagePath(UriPathConstant.PATH_CONFER_SEARCH);
 		LOGGER.info("Add new conference = " + name);
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.addconfer"));
@@ -69,5 +77,4 @@ public class AddConferenceCommand implements Command {
 	}
 	return router;
     }
-
 }

@@ -17,6 +17,14 @@ import com.epam.conference.service.ApplicationService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SearchApplicationCommand} class implements {@link Command} interface.
+ * Search user application by id and forward to edit application page for
+ * administrators.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchApplicationCommand implements Command {
 
     private static final Logger LOGGER = LogManager

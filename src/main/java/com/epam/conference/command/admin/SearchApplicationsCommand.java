@@ -15,6 +15,14 @@ import com.epam.conference.service.ApplicationService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Command of {@code SearchApplicationsCommand} class used to display in view
+ * all user application. If request contains search word, used this to filter
+ * result application list.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchApplicationsCommand implements Command {
 
     private static final Logger LOGGER = LogManager

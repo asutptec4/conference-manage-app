@@ -13,11 +13,18 @@ import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SearchUserReportCommand} class implements {@link Command} interface.
+ * Command used to display to view user reports. If request have parameter
+ * contain section id value, command forward to page for adding new application.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchUserReportCommand implements Command {
 
     private static final Logger LOGGER = LogManager
 	    .getLogger(SearchUserReportCommand.class);
-    private static final int FIRST_INDEX = 0;
 
     @Override
     public PageRouter execute(RequestContent requestContent) {
@@ -35,8 +42,8 @@ public class SearchUserReportCommand implements Command {
 		LOGGER.error("Can't find report list by login=" + login, e);
 	    }
 	}
-	String sectionId = processRequestParameter(requestContent
-		.getRequestParameters(RequestConstant.SECTION_ID));
+	String sectionId = requestContent
+		.getRequestParameter(RequestConstant.SECTION_ID);
 	if (sectionId != null) {
 	    requestContent.setRequestAttribute(RequestConstant.SECTION_ID,
 		    sectionId);
@@ -45,15 +52,5 @@ public class SearchUserReportCommand implements Command {
 	    router.setPagePath(UriPathConstant.PATH_VIEW_REPORT);
 	}
 	return router;
-    }
-
-    private String processRequestParameter(String[] str) {
-	String result = null;
-	if (str != null && str.length > 0) {
-	    if (str[FIRST_INDEX].length() > 0) {
-		result = str[FIRST_INDEX];
-	    }
-	}
-	return result;
     }
 }

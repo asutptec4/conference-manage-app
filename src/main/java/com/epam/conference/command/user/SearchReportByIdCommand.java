@@ -15,9 +15,17 @@ import com.epam.conference.service.ReportService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Command used by user to find concrete report for further change. Return to
+ * view information about report and parameter with next command value.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchReportByIdCommand implements Command {
 
     private static final String COMMAND_EDIT_REPORT = "edit-report";
+    
     private static final Logger LOGGER = LogManager
 	    .getLogger(SearchReportByIdCommand.class);
 

@@ -5,7 +5,7 @@
 <head>
 <title><fmt:message key="page.error.title" bundle="${pagebundle}" /></title>
 <%@ include file="/WEB-INF/fragment/jslib_conf.jspf"%>
-<title>Error page</title>
+<title><fmt:message key="page.error.title" bundle="${pagebundle}" /></title>
 </head>
 <body>
 	<%@ include file="/WEB-INF/fragment/header.jspf"%>
@@ -15,12 +15,13 @@
 			<h3>
 				<fmt:message key="page.error.text" bundle="${pagebundle}" />
 			</h3>
-			Request from ${pageContext.errorData.requestURI} is failed <br /> Servlet name or type:
-			${pageContext.errorData.servletName} <br /> Status code: ${pageContext.errorData.statusCode} <br />
-			Exception: ${pageContext.errorData.throwable} <br />
+			Request from ${pageContext.errorData.requestURI} is failed <br /> Servlet name or
+			type: ${pageContext.errorData.servletName} <br /> Status code:
+			${pageContext.errorData.statusCode} <br /> Exception:
+			${pageContext.errorData.throwable} <br />
 		</div>
-		<a href="${pageContext.request.contextPath}/index.jsp"><fmt:message key="page.error.return"
-				bundle="${pagebundle}" /></a>
+		<a href="${pageContext.request.contextPath}/index.jsp"><fmt:message
+				key="page.error.return" bundle="${pagebundle}" /></a>
 	</div>
 	<%@ include file="/WEB-INF/fragment/footer.jspf"%>
 </body>

@@ -16,9 +16,17 @@ import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Command used to find information about current user and display information
+ * about user in the form for further change.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SearchUserByLoginCommand implements Command {
 
     private static final String COMMAND_EDIT_USER = "edit-user";
+    
     private static final Logger LOGGER = LogManager
 	    .getLogger(SearchUserByLoginCommand.class);
 
@@ -46,5 +54,4 @@ public class SearchUserByLoginCommand implements Command {
 	}
 	return router;
     }
-
 }

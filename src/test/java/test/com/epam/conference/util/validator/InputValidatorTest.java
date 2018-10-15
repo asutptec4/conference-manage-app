@@ -36,12 +36,6 @@ public class InputValidatorTest {
 		lastName, email, phone), expected);
     }
 
-    @Test(dataProvider = "userName")
-    public void validateUserName(String userName, boolean expected) {
-	Assert.assertEquals(InputValidator.validateUserName(userName),
-		expected);
-    }
-
     @Test(dataProvider = "script")
     public void removeScript(String str, String result) {
 	Assert.assertEquals(InputValidator.removeScript(str), result);
@@ -60,15 +54,6 @@ public class InputValidatorTest {
     public Object[][] dataForPasswordTest() {
 	return new Object[][] { { "ghfdkjlag", true }, { "", false },
 		{ " ", true }, { null, false } };
-    }
-
-    @DataProvider(name = "userName")
-    public Object[][] dataForUserNameTest() {
-	return new Object[][] { { "ghfdkjlag", true },
-		{ "h48932yrg'.';fh4o", false }, { "4678jkfdlgaso", false },
-		{ "FDJgvjkls", true }, { "bdiy", false }, { "bdiy4", true },
-		{ "djlkhasgkhlfkflhu43kj3lhbfdjgsit4g5kh4gi", true },
-		{ "djlkhasgkhlfkflhu43kj3lhbfdjgsit4g5kh4gi2", false } };
     }
 
     @DataProvider(name = "user")

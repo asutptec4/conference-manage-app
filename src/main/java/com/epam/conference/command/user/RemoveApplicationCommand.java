@@ -15,6 +15,13 @@ import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * User command that remove the user application for participation in the
+ * conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class RemoveApplicationCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -35,7 +42,7 @@ public class RemoveApplicationCommand implements Command {
 		LOGGER.error("Fail to remove application id=" + applicId, e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.removeapplic"));
@@ -44,7 +51,8 @@ public class RemoveApplicationCommand implements Command {
 				.getSessionAttribute(SessionConstant.USER)
 			+ " remove application" + applicId);
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.removeapplic"));
@@ -55,5 +63,4 @@ public class RemoveApplicationCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_USER_APPLIC);
 	return router;
     }
-
 }

@@ -16,6 +16,13 @@ import com.epam.conference.util.constant.UriPathConstant;
 import com.epam.conference.util.validator.InputValidator;
 import com.epam.conference.util.validator.ReinputValidator;
 
+/**
+ * {@code AddApplicationCommand} class implements {@link Command} interface. It
+ * is used for add new user's application for participation in the conference.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class AddApplicationCommand implements Command {
 
     private static final Logger LOGGER = LogManager
@@ -41,14 +48,15 @@ public class AddApplicationCommand implements Command {
 		LOGGER.error("Fail to add new application", e);
 	    }
 	    if (flag) {
-		requestContent.setRequestAttribute(MESSAGE,
+		requestContent.setRequestAttribute(RequestConstant.MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.success.addapplic"));
 		LOGGER.info("User=" + requestContent.getSessionAttribute(
 			SessionConstant.USER) + " add application");
 	    } else {
-		requestContent.setRequestAttribute(ERROR_MESSAGE,
+		requestContent.setRequestAttribute(
+			RequestConstant.ERROR_MESSAGE,
 			MessageManager.choose((String) requestContent
 				.getSessionAttribute(SessionConstant.LOCALE))
 				.getProperty("message.error.addapplic"));
@@ -59,5 +67,4 @@ public class AddApplicationCommand implements Command {
 	router.setPagePath(UriPathConstant.PATH_USER_APPLIC);
 	return router;
     }
-
 }

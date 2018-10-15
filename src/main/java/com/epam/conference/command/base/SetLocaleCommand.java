@@ -8,6 +8,14 @@ import com.epam.conference.util.constant.LocaleConstant;
 import com.epam.conference.util.constant.SessionConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code SetLocaleCommand} change locale of user interface. Stored chosen
+ * locale in session scope variable. If locale variable is incorrect, set
+ * English locale as default.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class SetLocaleCommand implements Command {
 
     @Override
@@ -29,5 +37,4 @@ public class SetLocaleCommand implements Command {
 	router.setRouterType(PageRouterType.REDIRECT);
 	return router;
     }
-
 }

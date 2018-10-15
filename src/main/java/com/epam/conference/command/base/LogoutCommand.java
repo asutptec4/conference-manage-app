@@ -6,6 +6,13 @@ import com.epam.conference.controller.RequestContent;
 import com.epam.conference.controller.PageRouter.PageRouterType;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * {@code LogoutCommand} class implements {@link Command} interface. Invalidate
+ * user session and redirect to welcome page.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class LogoutCommand implements Command {
 
     public PageRouter execute(RequestContent requestContent) {
@@ -15,5 +22,4 @@ public class LogoutCommand implements Command {
 	requestContent.setInvalidateSession(true);
 	return router;
     }
-
 }

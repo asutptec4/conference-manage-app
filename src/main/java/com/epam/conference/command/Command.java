@@ -11,9 +11,6 @@ import com.epam.conference.controller.RequestContent;
  */
 public interface Command {
 
-    public static final String MESSAGE = "message";
-    public static final String ERROR_MESSAGE = "errorMessage";
-
     /**
      * The method performs actions depending on the passed parameters
      * encapsulated in {@code RequestContent} object.

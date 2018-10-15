@@ -12,8 +12,15 @@ import com.epam.conference.service.UserService;
 import com.epam.conference.util.constant.RequestConstant;
 import com.epam.conference.util.constant.UriPathConstant;
 
+/**
+ * Implements {@link Command} interface. Command used to forward to view list of
+ * users. Add to viewing information about messages unread by the administrator
+ * from users.
+ * 
+ * @author Alexander Shishonok
+ *
+ */
 public class ShowAllUserCommand implements Command {
-
 
     private static final Logger LOGGER = LogManager
 	    .getLogger(ShowAllUserCommand.class);
