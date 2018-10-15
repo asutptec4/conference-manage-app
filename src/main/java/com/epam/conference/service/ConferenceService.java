@@ -124,6 +124,16 @@ public class ConferenceService {
 	}
     }
 
+    public List<Conference> getConferencesByName(String name)
+	    throws ConferenceAppServiceException {
+	try (ConferenceDao dao = new ConferenceDao()) {
+	    return dao.findAll();
+	} catch (ConferenceAppDaoException e) {
+	    throw new ConferenceAppServiceException(
+		    "Fail to find conferences in db", e);
+	}
+    }
+
     public List<Section> getSectionList() throws ConferenceAppServiceException {
 	List<Section> sections = new ArrayList<>();
 	try (SectionDao dao = new SectionDao()) {

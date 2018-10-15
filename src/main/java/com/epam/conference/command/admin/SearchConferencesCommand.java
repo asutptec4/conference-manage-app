@@ -27,8 +27,15 @@ public class SearchConferencesCommand implements Command {
     public PageRouter execute(RequestContent requestContent) {
 	PageRouter router = new PageRouter();
 	ConferenceService service = ConferenceService.getInstance();
+	String searchKey = requestContent
+		.getRequestParameter(RequestConstant.SEARCH_KEY);
 	try {
-	    List<Conference> conferences = service.getConferenceList();
+	    List<Conference> conferences;
+	    if (searchKey == null || searchKey.isEmpty()) {
+		conferences = service.getConferenceList();
+	    } else {
+		conferences = service.findConferenceByName(searchKey);
+	    }
 	    if (UserRole.USER == requestContent
 		    .getSessionAttribute(SessionConstant.ROLE)) {
 		conferences = conferences.stream().filter(

@@ -31,6 +31,7 @@ public final class RequestConstant {
     public static final String REPORT_ID = "reportId";
     public static final String REPORT_NAME = "reportName";
     public static final String REPORT_USERID = "reportUserId";
+    public static final String SEARCH_KEY = "searchKey";
     public static final String SECTION = "section";
     public static final String SECTIONS = "sectionList";
     public static final String SECTION_DESC = "sectionDesc";

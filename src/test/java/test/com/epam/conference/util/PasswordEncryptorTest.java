@@ -8,8 +8,8 @@ import com.epam.conference.util.PasswordEncryptor;
 public class PasswordEncryptorTest {
 
     @Test
-    public void encrypt() {
+    public void encryptTest() {
 	Assert.assertEquals(PasswordEncryptor.encrypt("Hello"),
-		"8b1a9953c4611296a827abf8c47804d7");
+		"91db2d4279a42766759cfa87e9d633b4");
     }
 }

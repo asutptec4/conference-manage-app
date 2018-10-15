@@ -8,7 +8,7 @@
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link text-light" href="${pageContext.request.contextPath}/controller?command=search-confer"><fmt:message
 								key="page.menu.confer" bundle="${pagebundle}" /></a></li>
-					<li class="nav-item"><a class="nav-link text-light" href="${pageContext.request.contextPath}/controller?command=show-applic"><fmt:message
+					<li class="nav-item"><a class="nav-link text-light" href="${pageContext.request.contextPath}/controller?command=search-applic"><fmt:message
 								key="page.menu.applic" bundle="${pagebundle}" /></a></li>
 					<li class="nav-item"><a class="nav-link text-light" href="${pageContext.request.contextPath}/controller?command=show-all-user"><fmt:message
 								key="page.menu.users" bundle="${pagebundle}" /></a></li>

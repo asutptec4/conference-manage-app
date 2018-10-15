@@ -9,6 +9,20 @@
 <body>
 	<%@ include file="/WEB-INF/fragment/header.jspf"%>
 	<div class="container">
+		<c:if test="${role == 'ADMIN'}">
+			<br>
+			<form action="${pageContext.request.contextPath}/controller" method="get" role="form">
+				<input type="hidden" name="command" value="search-applic">
+				<div class="form-group col-xs-5">
+					<input type="text" name="searchKey" class="form-control"
+						placeholder="<fmt:message key="page.view.applic.search" bundle="${pagebundle}" />" />
+				</div>
+				<button type="submit" class="btn btn-primary">
+					<span class="fas fa-search"></span> <fmt:message key="page.common.search" bundle="${pagebundle}" />
+				</button>
+			</form>
+			<br>
+		</c:if>
 		<c:if test="${not empty message}">
 			<div class="alert alert-success">${message}</div>
 		</c:if>

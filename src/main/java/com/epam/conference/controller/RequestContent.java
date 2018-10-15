@@ -182,5 +182,4 @@ public class RequestContent {
     public void setInvalidateSession(boolean invalidateSession) {
 	this.invalidateSession = invalidateSession;
     }
-
 }

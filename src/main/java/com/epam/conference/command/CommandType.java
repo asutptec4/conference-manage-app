@@ -11,7 +11,7 @@ import com.epam.conference.command.admin.SearchApplicationCommand;
 import com.epam.conference.command.admin.SearchConferenceByIdCommand;
 import com.epam.conference.command.admin.SearchConferencesCommand;
 import com.epam.conference.command.admin.SearchSectionCommand;
-import com.epam.conference.command.admin.ShowApplicationsCommand;
+import com.epam.conference.command.admin.SearchApplicationsCommand;
 import com.epam.conference.command.admin.ShowAllUserCommand;
 import com.epam.conference.command.base.LoginCommand;
 import com.epam.conference.command.base.LogoutCommand;
@@ -53,6 +53,7 @@ public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REMOVE_APPLIC(new RemoveApplicationCommand()),
+    SEARCH_APPLIC(new SearchApplicationsCommand()),
     SEARCH_APPLICATION(new SearchApplicationCommand()),
     SEARCH_CONFER(new SearchConferencesCommand()),
     SEARCH_CONFER_BYID(new SearchConferByIdCommand()),
@@ -64,7 +65,6 @@ public enum CommandType {
     SEARCH_USER_REPORT(new SearchUserReportCommand()),
     SEND_MESSAGE(new SendMessageCommand()),
     SET_LOCALE(new SetLocaleCommand()),
-    SHOW_APPLIC(new ShowApplicationsCommand()),
     SHOW_ALL_CONFER(new ShowConferencesCommand()),
     SHOW_ALL_USER(new ShowAllUserCommand()),
     SHOW_MESSAGES(new ShowMessagesCommand());
