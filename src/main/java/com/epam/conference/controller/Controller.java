@@ -22,7 +22,7 @@ import com.epam.conference.util.constant.UriPathConstant;
  * @author Alexander Shishonok
  *
  */
-@WebServlet("/controller")
+@WebServlet(urlPatterns = UriPathConstant.PATH_CONTROLLER)
 public class Controller extends HttpServlet {
 
     private static final String PARAM_COMMAND = "command";

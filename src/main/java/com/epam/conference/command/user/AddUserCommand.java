@@ -46,10 +46,9 @@ public class AddUserCommand implements Command {
 		requestContent.getRequestParameter(RequestConstant.USER_PHONE));
 	boolean flag = false;
 	try {
-	    flag = InputValidator.validateUser(login, firstName, lastName,
-		    email, phone) && InputValidator.validatePassword(password)
-		    && service.addUser(login, password, firstName, lastName,
-			    email, phone);
+	    flag = service.addUser(login, password, firstName, lastName, email,
+		    phone);
+	    LOGGER.info("User created login=" + login);
 	} catch (ConferenceAppServiceException e) {
 	    LOGGER.error("Fail to add new users", e);
 	}
@@ -67,7 +66,6 @@ public class AddUserCommand implements Command {
 			    .getProperty("message.error.adduser"));
 	    router.setPagePath(UriPathConstant.PATH_USER);
 	}
-	LOGGER.info("User created login=" + login);
 	return router;
     }
 }

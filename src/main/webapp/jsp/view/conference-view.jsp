@@ -15,7 +15,7 @@
 				<input type="hidden" name="command" value="search-confer">
 				<div class="form-group col-xs-5">
 					<input type="text" name="searchKey" class="form-control"
-						placeholder="<fmt:message key="page.view.confer.search" bundle="${pagebundle}" />" />
+						placeholder="<fmt:message key="page.view.confer.search" bundle="${pagebundle}" />" required autofocus/>
 				</div>
 				<button type="submit" class="btn btn-primary">
 					<span class="fas fa-search"></span> <fmt:message key="page.common.search" bundle="${pagebundle}" />

@@ -14,7 +14,9 @@ public final class UriPathConstant {
     public static final String PATH_APPLICATION_NEW = "/jsp/new/application.jsp";
     public static final String PATH_CONFER_NEW = "/jsp/new/conference.jsp";
     public static final String PATH_CONFER_SEARCH = "/controller?command=search-confer";
+    public static final String PATH_CONTROLLER = "/controller";
     public static final String PATH_ERROR = "/jsp/error/error.jsp";
+    public static final String PATH_JSP = "/jsp/*";
     public static final String PATH_INDEX = "/index.jsp";
     public static final String PATH_MAIN = "/jsp/main.jsp";
     public static final String PATH_MESSAGES = "/controller?command=show-messages";

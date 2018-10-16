@@ -35,7 +35,7 @@
 				<input type="hidden" name="receiver" value="${receiver}" />
 				<label for="messageText" class="control-label col-xs-4"><h4>
 						<fmt:message key="page.view.message.text" bundle="${pagebundle}" />
-					</h4></label> <input type="text" name="messageText" class="form-control" maxlength="255" /><br>
+					</h4></label> <input type="text" name="messageText" class="form-control" maxlength="255" required autofocus/><br>
 				<button type="submit" class="btn btn-primary btn-md">
 					<fmt:message key="page.view.message.send" bundle="${pagebundle}" />
 				</button>

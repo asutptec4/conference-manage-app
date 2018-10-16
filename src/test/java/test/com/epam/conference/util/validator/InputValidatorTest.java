@@ -8,21 +8,6 @@ import com.epam.conference.util.validator.InputValidator;
 
 public class InputValidatorTest {
 
-    @Test(enabled = false)
-    public void validateConference() {
-	throw new RuntimeException("Test not implemented");
-    }
-
-    @Test(enabled = false)
-    public void validateReport() {
-	throw new RuntimeException("Test not implemented");
-    }
-
-    @Test(enabled = false)
-    public void validateSection() {
-	throw new RuntimeException("Test not implemented");
-    }
-
     @Test(dataProvider = "password")
     public void validatePassword(String password, boolean expected) {
 	Assert.assertEquals(InputValidator.validatePassword(password),

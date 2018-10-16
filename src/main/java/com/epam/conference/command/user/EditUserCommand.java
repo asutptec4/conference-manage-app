@@ -45,10 +45,9 @@ public class EditUserCommand implements Command {
 		requestContent.getRequestParameter(RequestConstant.USER_PHONE));
 	boolean flag = false;
 	try {
-	    flag = InputValidator.validateUser(login, firstName, lastName,
-		    email, phone) && InputValidator.validatePassword(password)
-		    && service.updateUser(login, password, firstName, lastName,
-			    email, phone);
+	    flag = service.updateUser(login, password, firstName, lastName,
+		    email, phone);
+	    LOGGER.info("User=" + login + " edit user data");
 	} catch (ConferenceAppServiceException e) {
 	    LOGGER.error("Fail to update users with login =" + login, e);
 	}
@@ -63,6 +62,7 @@ public class EditUserCommand implements Command {
 			    .getProperty("message.error.edituser"));
 	    router.setPagePath(UriPathConstant.PATH_USER_SEARCH);
 	}
+
 	return router;
     }
 }
